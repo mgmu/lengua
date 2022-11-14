@@ -26,7 +26,28 @@ class TranslationResearchFragment:
         private val DICTIONARY_LIST_FRAGMENT_TAG = "tag1"
 
         @JvmStatic
-        fun newInstance() = TranslationResearchFragment()
+        fun newInstance(adapter: DictionaryRecyclerAdapter) = TranslationResearchFragment(adapter)
+    }
+
+    override fun onStart() {
+
+        /* Observe changes in dictionaries of database */
+        model.allDictionaries.observe(this) {
+            adapter.dictionaries = it
+            adapter.notifyDataSetChanged()
+        }
+
+        /* load all dictionaries */
+        model.loadAllDictionaries()
+
+        super.onStart()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentTranslationResearchBinding.bind(view)
+        binding.dictionaryRecycler.layoutManager = LinearLayoutManager(context)
+        binding.dictionaryRecycler.adapter = adapter
     }
 
     override fun onCreateView(
