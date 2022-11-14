@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace 'fr.uparis.lengua'
-    compileSdk 32
+    compileSdk 33 // previously 32
 
     defaultConfig {
         applicationId "fr.uparis.lengua"
@@ -74,8 +74,5 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
 
     // KSP
-    ksp "androidx.room:room-compile:$room_version"
-
-
-
+    ksp "androidx.room:room-compiler:$room_version"
 }
