@@ -21,7 +21,7 @@ class TranslationResearchFragment(private val adapter: DictionaryRecyclerAdapter
     override fun onStart() {
 
         /* Observe changes in dictionaries of database */
-        model.allDictionaries.observe(this) {
+        model.allDictionaries.observe(viewLifecycleOwner) {
             adapter.dictionaries = it
             adapter.notifyDataSetChanged()
         }
