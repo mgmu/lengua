@@ -2,8 +2,10 @@ package fr.uparis.lengua
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import fr.uparis.lengua.databinding.ActivityMainBinding
@@ -11,6 +13,7 @@ import fr.uparis.lengua.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private val model: TranslationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +24,8 @@ class MainActivity : AppCompatActivity() {
         val names = listOf("Research")
 
         /* Fragments creation */
-        val translationResearchFragment = TranslationResearchFragment.newInstance()
+        val adapter = DictionaryRecyclerAdapter(model)
+        val translationResearchFragment = TranslationResearchFragment.newInstance(adapter)
 
         /* Pager Adapter */
         val pagerAdapter = ScreenSlidePagerAdapter(
