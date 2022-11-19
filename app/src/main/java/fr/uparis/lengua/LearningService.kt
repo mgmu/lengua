@@ -13,6 +13,11 @@ import androidx.core.app.NotificationCompat
 import android.net.Uri
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.LiveData
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewmodel.viewModelFactory
+
+
 
 /**
  * This service allows the user to review words by using notifications.
