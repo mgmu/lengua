@@ -1,6 +1,7 @@
 package fr.uparis.lengua
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import fr.uparis.lengua.databinding.FragmentSaveSearchBinding
 
 class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
 
+    private val URI_KEY = "URI_KEY"
     private lateinit var binding: FragmentSaveSearchBinding
 
     override fun onCreateView(
@@ -22,6 +24,9 @@ class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSaveSearchBinding.bind(view)
+
+        /* Place uri value if present */
+        binding.dictionaryUriEditText.setText(requireArguments().getString(URI_KEY, ""))
 
         /* On Save button click, add word to DB */
         binding.saveSearchButton.setOnClickListener {
@@ -47,6 +52,19 @@ class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
     companion object {
 
         @JvmStatic
-        fun newInstance() = SaveSearchFragment()
+        fun newInstance(): SaveSearchFragment {
+            return SaveSearchFragment().apply {
+                arguments = Bundle() /* no arguments */
+            }
+        }
+
+        @JvmStatic
+        fun newInstance(uri: String): SaveSearchFragment {
+            return SaveSearchFragment().apply {
+                arguments = Bundle().apply {
+                    putString(URI_KEY, uri)
+                }
+            }
+        }
     }
 }

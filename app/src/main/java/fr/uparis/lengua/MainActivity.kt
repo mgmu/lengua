@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         /* Fragments creation */
         val adapter = DictionaryRecyclerAdapter(model)
         val translationResearchFragment = TranslationResearchFragment.newInstance(adapter)
-        val saveSearchFragment = SaveSearchFragment()
+        val saveSearchFragment = SaveSearchFragment.newInstance()
 
         /* Pager Adapter */
         val pagerAdapter = ScreenSlidePagerAdapter(
