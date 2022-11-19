@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.viewModelFactory
+import java.util.*
 import kotlin.random.Random
 
 /**
@@ -162,15 +163,26 @@ class LearningService : Service() {
 
     /**
      * Triggers an alarm for the next Learning session
-     * TODO: GET FREQUENCY FROM SHAREDPREF
+     * The time info of the alarm come from sharedPreferences
+     * If there are not info in sharedPreferences the lesson takes place everyday at 8 O'clock
      */
     private fun triggerAlarm() {
+        val calendar: Calendar = Calendar.getInstance().apply {
+        timeInMillis = System.currentTimeMillis()
+        set(Calendar.HOUR_OF_DAY, sharedPreferences.getInt("hour",8))
+            set(Calendar.MINUTE,sharedPreferences.getInt("minute",0))
+        }
 
-        val x = 3
         val intent = Intent(this, LearningService::class.java)
         val pendingIntent = PendingIntent.getService(this,1, intent, pendingFlag)
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            SystemClock.elapsedRealtime() + x * 1000, pendingIntent)
+
+        alarmManager.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            sharedPreferences.getLong("repeatingInterval",AlarmManager.INTERVAL_FIFTEEN_MINUTES),
+            pendingIntent
+        )
+        Log.d("logLENGUA", "END OF TRIGGER ALARM")
     }
 }
