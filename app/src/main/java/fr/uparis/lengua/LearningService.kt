@@ -8,11 +8,12 @@ import android.os.Build
 import android.os.IBinder
 import android.os.SystemClock
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlin.random.Random
-// TODO : wake the service up periodically thanks to an alarm
+
 /**
  * This service allows the user to review words by using notifications.
  */
@@ -31,7 +32,9 @@ class LearningService : Service() {
     /**
      * Getting sharedprefrences to know how many notification we should send.
      */
-    private var sharedPreferences = getSharedPreferences("sharedPref",Context.MODE_PRIVATE)
+    private val sharedPreferences by lazy {
+        getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
+    }
 
     /**
      * Stores the the words of the database
@@ -51,20 +54,22 @@ class LearningService : Service() {
     else
         PendingIntent.FLAG_UPDATE_CURRENT
 
-    private val dao: IDao = (application as TranslationApplication).database.iDao()
+    private val dao: IDao by lazy {
+        (application as TranslationApplication).database.iDao()
+    }
 
     /**
      * Notification channel creation before starting service
      */
     override fun onCreate() {
-        Log.d("service","onCreateService")
+        super.onCreate()
+        Log.d("logLENGUA","onCreateService")
         createNotificationChannel()
         fillWords()
-        super.onCreate()
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d("service","onstartCommand")
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        Log.d("logLENGUA","onstartCommand")
         var remainingPlace =  sharedPreferences.getInt("nbNotifs",0)
         sendNotifications(remainingPlace)
         triggerAlarm()
@@ -74,9 +79,11 @@ class LearningService : Service() {
     override fun onBind(intent: Intent): IBinder {
         TODO("Return the communication channel to the service.")
     }
-    private fun fillWords():Unit{
-        words = dao.loadAllWords().value!!
+
+    private fun fillWords(): Unit{
+//        words = dao.loadAllWords().value!!
     }
+
     /**
      * Draws a random word from the database
      * @return the drawn word
@@ -160,10 +167,10 @@ class LearningService : Service() {
     private fun triggerAlarm() {
 
         val x = 3
-        val intent = Intent(this,LearningService::class.java)
-        val pendingIntent = PendingIntent.getService(this,1,intent,pendingFlag)
+        val intent = Intent(this, LearningService::class.java)
+        val pendingIntent = PendingIntent.getService(this,1, intent, pendingFlag)
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            SystemClock.elapsedRealtime() + x * 1000,pendingIntent)
+            SystemClock.elapsedRealtime() + x * 1000, pendingIntent)
     }
 }
