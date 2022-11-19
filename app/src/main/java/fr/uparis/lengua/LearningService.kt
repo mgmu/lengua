@@ -18,6 +18,8 @@ import android.os.SystemClock
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.viewModelFactory
+import android.widget.Toast
+
 
 /**
  * This service allows the user to review words by using notifications.
