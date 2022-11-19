@@ -9,20 +9,22 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.uparis.lengua.databinding.FragmentTranslationResearchBinding
 
-class TranslationResearchFragment(private val adapter: DictionaryRecyclerAdapter):
+class TranslationResearchFragment:
     Fragment(R.layout.fragment_translation_research) {
 
     private val GOOGLE_URI = "https://www.google.fr/search?q="
 
     private lateinit var binding: FragmentTranslationResearchBinding
+    private lateinit var adapter: DictionaryRecyclerAdapter
     private val model: TranslationViewModel by activityViewModels()
 
     companion object {
         @JvmStatic
-        fun newInstance(adapter: DictionaryRecyclerAdapter) = TranslationResearchFragment(adapter)
+        fun newInstance() = TranslationResearchFragment()
     }
 
     override fun onStart() {
+        adapter = DictionaryRecyclerAdapter(model)
 
         /* Observe changes in dictionaries of database */
         model.allDictionaries.observe(viewLifecycleOwner) {
