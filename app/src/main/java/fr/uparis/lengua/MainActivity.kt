@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         }.attach()
         val i = Intent(this,LearningService::class.java)
         Log.d("service","before startService in main")
-        startService(i)
+        applicationContext.startService(i)
         Log.d("service","after startService in main")
 
 
