@@ -12,19 +12,21 @@ import java.util.*
 import java.util.function.LongToDoubleFunction
 import kotlin.random.Random
 import android.content.Context
-import android.os.Build
-import android.net.Uri
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.LiveData
 import android.widget.Toast
+import android.net.Uri
+import android.os.Build
+import android.os.SystemClock
+import androidx.core.app.NotificationCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.viewModelFactory
-import android.os.SystemClock
 
 /**
  * This service allows the user to review words by using notifications.
  */
 class LearningService : LifecycleService() {
+
 
     private val REMAINING_NOTIFICATIONS = "number of notifications to send for next course"
     private val HOUR_ = "hour"
