@@ -1,5 +1,7 @@
 package fr.uparis.lengua
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -9,6 +11,8 @@ import fr.uparis.lengua.databinding.FragmentTranslationResearchBinding
 
 class TranslationResearchFragment(private val adapter: DictionaryRecyclerAdapter):
     Fragment(R.layout.fragment_translation_research) {
+
+    private val GOOGLE_URI = "https://www.google.fr/search?q="
 
     private lateinit var binding: FragmentTranslationResearchBinding
     private val model: TranslationViewModel by activityViewModels()
@@ -37,5 +41,21 @@ class TranslationResearchFragment(private val adapter: DictionaryRecyclerAdapter
         binding = FragmentTranslationResearchBinding.bind(view)
         binding.dictionaryRecycler.layoutManager = LinearLayoutManager(context)
         binding.dictionaryRecycler.adapter = adapter
+
+        /* Launch search in web browser on click */
+        binding.searchWordButton.setOnClickListener {
+            val wordToSearch = binding.searchWordEditText.text.toString()
+            if (wordToSearch.isNotBlank()) {
+                val searchUri =
+                    if (model.isDictionarySelected())
+                        "${model.selectedDictionary.value!!.link}/$wordToSearch"
+                    else
+                        "$GOOGLE_URI$wordToSearch"
+
+                val webIntent = Intent(Intent.ACTION_VIEW)
+                webIntent.data = Uri.parse(searchUri)
+                startActivity(webIntent)
+            }
+        }
     }
 }

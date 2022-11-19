@@ -21,4 +21,9 @@ class TranslationViewModel(app: Application): AndroidViewModel(app) {
 
     /* Loads all words in database */
     fun loadAllWords() = dao.loadAllWords()
+
+    /**
+     * Returns true if a dictionary is selected.
+     */
+    fun isDictionarySelected(): Boolean = selectedDictionary.value != null
 }
