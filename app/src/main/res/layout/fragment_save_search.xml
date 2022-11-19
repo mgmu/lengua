@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SaveSearchFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/wordToSaveEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="word to save"
+            android:minHeight="48dp"
+            android:inputType="text"
+            android:textColorHint="#757575" />
+
+        <EditText
+            android:id="@+id/sourceLanguageEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="source language"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textColorHint="#757575" />
+
+        <EditText
+            android:id="@+id/destinationLanguageEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="destination language"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textColorHint="#757575" />
+
+        <EditText
+            android:id="@+id/dictionaryUriEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="dictionary uri"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textColorHint="#757575" />
+
+        <Button
+            android:id="@+id/saveSearchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SAVE" />
+
+    </LinearLayout>
+
+</FrameLayout>

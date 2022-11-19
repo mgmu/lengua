@@ -20,16 +20,17 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         /* Page names */
-        val names = listOf("Research")
+        val names = listOf("Research", "Save")
 
         /* Fragments creation */
         val adapter = DictionaryRecyclerAdapter(model)
         val translationResearchFragment = TranslationResearchFragment.newInstance(adapter)
+        val saveSearchFragment = SaveSearchFragment()
 
         /* Pager Adapter */
         val pagerAdapter = ScreenSlidePagerAdapter(
             this,
-            mutableListOf(translationResearchFragment)
+            mutableListOf(translationResearchFragment, saveSearchFragment)
         )
 
         /* Attach pager adapter to pager */

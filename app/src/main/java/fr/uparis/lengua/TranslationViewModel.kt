@@ -7,19 +7,29 @@ import androidx.lifecycle.MutableLiveData
 
 class TranslationViewModel(app: Application): AndroidViewModel(app) {
 
-    /* DB Request interface */
+    /**
+     * DB Request interface
+     */
     private val dao = (app as TranslationApplication).database.iDao()
 
-    /* All dictionaries of database */
+    /**
+     *  All dictionaries of database
+     */
     var allDictionaries: LiveData<List<Dictionary>> = loadAllDictionaries()
 
-    /* Selected dictionary in research page */
+    /**
+     *  Selected dictionary in research page
+     */
     var selectedDictionary = MutableLiveData<Dictionary>()
 
-    /* Loads all dictionaries in database */
+    /**
+     * Loads all dictionaries in database
+     */
     fun loadAllDictionaries() = dao.loadAllDictionaries()
 
-    /* Loads all words in database */
+    /**
+     *  Loads all words in database
+     */
     fun loadAllWords() = dao.loadAllWords()
 
     /**
