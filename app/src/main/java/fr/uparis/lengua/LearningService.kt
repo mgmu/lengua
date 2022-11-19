@@ -2,11 +2,8 @@ package fr.uparis.lengua
 
 import android.app.*
 import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -14,20 +11,33 @@ import androidx.core.app.NotificationCompat
 import java.util.*
 import java.util.function.LongToDoubleFunction
 import kotlin.random.Random
+import android.content.Context
+import android.net.Uri
+import android.os.Build
+import android.os.SystemClock
+import androidx.core.app.NotificationCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewmodel.viewModelFactory
 
 /**
  * This service allows the user to review words by using notifications.
  */
 class LearningService : Service() {
 
+
     private val REMAINING_NOTIFICATIONS = "number of notifications to send for next course"
     private val HOUR_ = "hour"
     private val MINUTE_ = "minute"
     private val RECAP_FREQUENCY_ = "repeatingInterval"
-    /* Id for the notification channel */
+
+    /**
+     * Id for the notification channel
+     */
     private val CHANNEL_ID = "Learning channel"
 
-    /* Automatic numbering of the notifications. */
+    /**
+     * Automatic numbering of the notifications.
+     */
     private var currentNotificationID = 0
 
     /**
@@ -37,7 +47,9 @@ class LearningService : Service() {
         getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
     }
 
-    /* Stores the the words of the database */
+    /**
+     * Stores the the words of the database
+     */
     private lateinit var words : List<Word>
 
     /**
