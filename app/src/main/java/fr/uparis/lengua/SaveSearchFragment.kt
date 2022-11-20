@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import fr.uparis.lengua.databinding.FragmentSaveSearchBinding
 
 class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
 
     private val URI_KEY = "URI_KEY"
     private lateinit var binding: FragmentSaveSearchBinding
+    private val model: TranslationViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

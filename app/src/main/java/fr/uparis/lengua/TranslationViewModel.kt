@@ -36,4 +36,10 @@ class TranslationViewModel(app: Application): AndroidViewModel(app) {
      * Returns true if a dictionary is selected.
      */
     fun isDictionarySelected(): Boolean = selectedDictionary.value != null
+
+    /**
+     * Inserts a word in the database and returns the id of the new word or -1
+     * if the insertion failed
+     */
+    fun insertWord(word: Word) = dao.insertWord(word)
 }
