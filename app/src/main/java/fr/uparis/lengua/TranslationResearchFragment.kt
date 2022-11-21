@@ -3,6 +3,7 @@ package fr.uparis.lengua
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -23,8 +24,13 @@ class TranslationResearchFragment:
         fun newInstance() = TranslationResearchFragment()
     }
 
-    override fun onStart() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         adapter = DictionaryRecyclerAdapter(model)
+        Log.d("logLengua", "initialized adapter")
+    }
+
+    override fun onStart() {
 
         /* Observe changes in dictionaries of database */
         model.allDictionaries.observe(viewLifecycleOwner) {

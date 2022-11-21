@@ -10,6 +10,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Word"/>
+
         <EditText
             android:id="@+id/wordToSaveEditText"
             android:layout_width="match_parent"
@@ -38,13 +43,22 @@
             android:textColorHint="#757575" />
 
         <EditText
-            android:id="@+id/dictionaryUriEditText"
+            android:id="@+id/translationUriEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="dictionary uri"
+            android:hint="translation uri"
             android:inputType="text"
             android:minHeight="48dp"
             android:textColorHint="#757575" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dictionary" />
 
         <EditText
             android:id="@+id/dictionaryNameEditText"
@@ -55,11 +69,26 @@
             android:minHeight="48dp"
             android:textColorHint="#757575" />
 
+        <EditText
+            android:id="@+id/dictionaryUriEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="dictionary uri"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textColorHint="#757575" />
+
         <Button
-            android:id="@+id/saveSearchButton"
+            android:id="@+id/saveWordButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SAVE" />
+            android:text="Save word" />
+
+        <Button
+            android:id="@+id/saveDictionaryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save dictionary" />
 
     </LinearLayout>
 

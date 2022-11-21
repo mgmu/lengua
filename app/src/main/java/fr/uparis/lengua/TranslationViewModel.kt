@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlin.concurrent.thread
 
 class TranslationViewModel(app: Application): AndroidViewModel(app) {
 
@@ -38,8 +39,22 @@ class TranslationViewModel(app: Application): AndroidViewModel(app) {
     fun isDictionarySelected(): Boolean = selectedDictionary.value != null
 
     /**
-     * Inserts a word in the database and returns the id of the new word or -1
-     * if the insertion failed
+     * Inserts a word in the database
+     * @return the id of the inserted word or -1 if insertion failed
      */
-    fun insertWord(word: Word) = dao.insertWord(word)
+    fun insertWord(word: Word) {
+        thread {
+            dao.insertWord(word)
+        }
+    }
+
+    /**
+     * Inserts a dictionary in the database
+     *  @return the id of the inserted dictionary or -1 if insertion failed
+     */
+    fun insertDictionary(dict: Dictionary) {
+        thread {
+            dao.insertDictionary(dict)
+        }
+    }
 }
