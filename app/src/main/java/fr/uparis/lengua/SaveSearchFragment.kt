@@ -30,20 +30,21 @@ class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
         /* Place uri value if present */
         binding.dictionaryUriEditText.setText(requireArguments().getString(URI_KEY, ""))
 
-        /* On Save button click, add word to DB */
+        /* On Save button click, add word and dico to DB */
         binding.saveSearchButton.setOnClickListener {
             val word = binding.wordToSaveEditText.text.toString()
-            val src = binding.sourceLanguageEditText.text.toString()
-            val dest = binding.destinationLanguageEditText.text.toString()
-            val uri = binding.dictionaryUriEditText.text.toString()
-            val dict = binding.dictionaryNameEditText.text.toString()
+            val srcL = binding.sourceLanguageEditText.text.toString()
+            val destL = binding.destinationLanguageEditText.text.toString()
+            val uriWord = binding.dictionaryUriEditText.text.toString()
+
+            val dictName = binding.dictionaryNameEditText.text.toString()
 
             /* Do nothing if fields are missing */
             if (word.isBlank()
-                || src.isBlank()
-                || dest.isBlank()
-                || uri.isBlank()
-                || dict.isBlank()) {
+                || srcL.isBlank()
+                || destL.isBlank()
+                || uriWord.isBlank()
+                || dictName.isBlank()) {
                 return@setOnClickListener
             }
 
