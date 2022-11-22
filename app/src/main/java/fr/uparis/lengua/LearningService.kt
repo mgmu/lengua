@@ -30,14 +30,14 @@ class LearningService : LifecycleService() {
     private val MINUTE_ = "minute"
     private val RECAP_FREQUENCY_ = "repeatingInterval"
 
-    /**
-     * Id for the notification channel
-     */
+    private val REMAINING_NOTIFICATIONS = "number of notifications to send for next course"
+    private val HOUR_ = "hour"
+    private val MINUTE_ = "minute"
+    private val RECAP_FREQUENCY_ = "repeatingInterval"
+    /* Id for the notification channel */
     private val CHANNEL_ID = "Learning channel"
 
-    /**
-     * Automatic numbering of the notifications.
-     */
+    /* Automatic numbering of the notifications. */
     private var currentNotificationID = 0
 
     /**
