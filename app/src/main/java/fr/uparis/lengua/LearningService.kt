@@ -168,6 +168,7 @@ class LearningService : Service() {
         var pos = words.indexOf(word)
         alreadyGivenWords.add(pos) // from here this word will not be drawn a second time for this
                                   // lesson
+        val swipeIntent =  Intent(this,LearningService::class.java).putExtra("swipe",1)
         val notif = NotificationCompat.Builder(this,CHANNEL_ID)
             .setContentTitle(word.word)
             .setContentText("Tap to see translation")
@@ -177,6 +178,8 @@ class LearningService : Service() {
             .setContentIntent(
         PendingIntent.getActivity(this,0, launchBrowser(word.link),
             pendingFlag))
+            .setDeleteIntent(PendingIntent.getActivity(this,1, swipeIntent,
+           pendingFlag))
             .build()
 
         currentNotificationID++
