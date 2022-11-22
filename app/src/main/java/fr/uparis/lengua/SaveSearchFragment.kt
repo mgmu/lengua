@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import fr.uparis.lengua.databinding.FragmentSaveSearchBinding
 
@@ -27,28 +28,63 @@ class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSaveSearchBinding.bind(view)
 
-        /* Place uri value if present */
-        binding.dictionaryUriEditText.setText(requireArguments().getString(URI_KEY, ""))
+        /* Get translation uri value if present */
+        val translationUri = requireArguments().getString(URI_KEY, "")
+        if (translationUri.isNotBlank()) {
+            /* Place it as is in translation uri edit text */
+            binding.translationUriEditText.setText(translationUri)
+            binding.dictionaryUriEditText.setText(translationUri)
+        }
 
-        /* On Save button click, add word and dico to DB */
-        binding.saveSearchButton.setOnClickListener {
+        /* On Save Word button click, add word DB */
+        binding.saveWordButton.setOnClickListener {
+
+            /* Word entity fields */
             val word = binding.wordToSaveEditText.text.toString()
             val srcL = binding.sourceLanguageEditText.text.toString()
             val destL = binding.destinationLanguageEditText.text.toString()
-            val uriWord = binding.dictionaryUriEditText.text.toString()
+            val uriWord = binding.translationUriEditText.text.toString()
 
-            val dictName = binding.dictionaryNameEditText.text.toString()
-
-            /* Do nothing if fields are missing */
-            if (word.isBlank()
-                || srcL.isBlank()
-                || destL.isBlank()
-                || uriWord.isBlank()
-                || dictName.isBlank()) {
+            /* Do nothing if mandatory fields are missing */
+            if (word.isBlank() || srcL.isBlank() || destL.isBlank() || uriWord.isBlank())
                 return@setOnClickListener
-            }
 
-            TODO()
+            /* Insert word in DB */
+            model.insertWord(Word(word, srcL, destL, uriWord))
+        }
+
+        /* On Save dictionary button click, add dictionary to DB */
+        binding.saveDictionaryButton.setOnClickListener {
+
+            /* Dictionary entity fields */
+            val dictName = binding.dictionaryNameEditText.text.toString()
+            val dictUri = binding.dictionaryUriEditText.text.toString()
+
+            /* Do nothing if mandatory fields are missing */
+            if (dictName.isBlank() || dictUri.isBlank())
+                return@setOnClickListener
+
+            /* Insert dictionary in DB */
+            model.insertDictionary(Dictionary(dictName, dictUri))
+        }
+
+        /* Display a toast when word or dictionary insertion finishes */
+        model.insertWordResult.observe(viewLifecycleOwner) {
+            val msg =
+                if (it != -1L)
+                    "Added new word !"
+                else
+                    "Could not add word..."
+            Toast.makeText(context,msg, Toast.LENGTH_SHORT).show()
+        }
+
+        model.insertDictionaryResult.observe(viewLifecycleOwner) {
+            val msg =
+                if (it != -1L)
+                    "Added new dictionary !"
+                else
+                    "Could not add dictionary..."
+            Toast.makeText(context,msg, Toast.LENGTH_SHORT).show()
         }
     }
 
