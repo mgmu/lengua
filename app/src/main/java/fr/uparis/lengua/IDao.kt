@@ -9,7 +9,7 @@ import androidx.room.Query
 @Dao
 interface IDao {
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(entity = Word::class, onConflict = OnConflictStrategy.ABORT)
     fun insertWord(word: Word): Long
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
