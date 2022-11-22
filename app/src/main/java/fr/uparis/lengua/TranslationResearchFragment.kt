@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +14,9 @@ import fr.uparis.lengua.databinding.FragmentTranslationResearchBinding
 class TranslationResearchFragment:
     Fragment(R.layout.fragment_translation_research) {
 
-    private val GOOGLE_URI = "https://www.google.fr/search?q="
+    private val HTTP = "http://"
+    private val HTTPS = "https://"
+    private val GOOGLE_URI = "www.google.fr/search?q="
 
     private lateinit var binding: FragmentTranslationResearchBinding
     private lateinit var adapter: DictionaryRecyclerAdapter
@@ -58,11 +61,13 @@ class TranslationResearchFragment:
                     if (model.isDictionarySelected())
                         "${model.selectedDictionary.value!!.link}/$wordToSearch"
                     else
-                        "$GOOGLE_URI$wordToSearch"
-
-                val webIntent = Intent(Intent.ACTION_VIEW)
-                webIntent.data = Uri.parse(searchUri)
-                startActivity(webIntent)
+                        "$HTTPS$GOOGLE_URI$wordToSearch"
+                if (searchUri.startsWith(HTTP) || searchUri.startsWith(HTTPS)) {
+                    val webIntent = Intent(Intent.ACTION_VIEW)
+                    webIntent.data = Uri.parse(searchUri)
+                    startActivity(webIntent)
+                } else
+                    Toast.makeText(context, "Invalid URI...", Toast.LENGTH_SHORT).show()
             }
         }
     }

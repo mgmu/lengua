@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import fr.uparis.lengua.databinding.FragmentSaveSearchBinding
 
@@ -52,6 +53,7 @@ class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
             model.insertWord(Word(word, srcL, destL, uriWord))
         }
 
+        /* On Save dictionary button click, add dictionary to DB */
         binding.saveDictionaryButton.setOnClickListener {
 
             /* Dictionary entity fields */
@@ -64,6 +66,25 @@ class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
 
             /* Insert dictionary in DB */
             model.insertDictionary(Dictionary(dictName, dictUri))
+        }
+
+        /* Display a toast when word or dictionary insertion finishes */
+        model.insertWordResult.observe(viewLifecycleOwner) {
+            val msg =
+                if (it != -1L)
+                    "Added new word !"
+                else
+                    "Could not add word..."
+            Toast.makeText(context,msg, Toast.LENGTH_SHORT).show()
+        }
+
+        model.insertDictionaryResult.observe(viewLifecycleOwner) {
+            val msg =
+                if (it != -1L)
+                    "Added new dictionary !"
+                else
+                    "Could not add dictionary..."
+            Toast.makeText(context,msg, Toast.LENGTH_SHORT).show()
         }
     }
 

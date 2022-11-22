@@ -23,6 +23,9 @@ class TranslationViewModel(app: Application): AndroidViewModel(app) {
      */
     var selectedDictionary = MutableLiveData<Dictionary>()
 
+    val insertWordResult = MutableLiveData<Long>()
+    val insertDictionaryResult = MutableLiveData<Long>()
+
     /**
      * Loads all dictionaries in database
      */
@@ -44,7 +47,7 @@ class TranslationViewModel(app: Application): AndroidViewModel(app) {
      */
     fun insertWord(word: Word) {
         thread {
-            dao.insertWord(word)
+            insertWordResult.postValue(dao.insertWord(word))
         }
     }
 
@@ -54,7 +57,7 @@ class TranslationViewModel(app: Application): AndroidViewModel(app) {
      */
     fun insertDictionary(dict: Dictionary) {
         thread {
-            dao.insertDictionary(dict)
+            insertDictionaryResult.postValue(dao.insertDictionary(dict))
         }
     }
 }
