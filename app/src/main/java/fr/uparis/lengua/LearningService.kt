@@ -1,18 +1,18 @@
 package fr.uparis.lengua
 
 import android.app.*
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.IBinder
-import android.os.SystemClock
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.viewmodel.viewModelFactory
 import java.util.*
+import java.util.function.LongToDoubleFunction
 import kotlin.random.Random
 
 /**
@@ -43,7 +43,9 @@ class LearningService : Service() {
     /**
      * Getting notification manager
      */
-    private val notificationManager by lazy { getSystemService(NOTIFICATION_SERVICE) as NotificationManager }
+    private val notificationManager by lazy {
+        getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+    }
 
     /**
      * Deciding which flag to use depending on sdk version
@@ -59,6 +61,10 @@ class LearningService : Service() {
     }
     private var alreadyGivenWords :MutableList<Int> = mutableListOf()
 
+
+
+    private val dismissReceiver:NotificationDismissReceiver = NotificationDismissReceiver()
+
     /**
      * Notification channel creation before starting service
      */
@@ -67,6 +73,7 @@ class LearningService : Service() {
         Log.d("logLENGUA","onCreateService")
         createNotificationChannel()
         fillWords()
+        getApplication().registerReceiver(dismissReceiver, IntentFilter("dismiss"))
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -91,8 +98,11 @@ class LearningService : Service() {
      */
     private fun fillWords() {
 //        words = dao.loadAllWords().value!!
-        val w = Word("Verre","fr","es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Verre")
+
+        val word = Word("Film","fr","es",
+            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Film")
+        val w = Word("Truc","fr","es",
+            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Truc")
 
         val w1 = Word("Livre","fr","es",
             "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Livre")
@@ -121,7 +131,7 @@ class LearningService : Service() {
         val w9 = Word("Mousse","fr","es",
             "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Mousse")
 
-        words = listOf(w,w1,w2,w3,w4,w5,w6,w7,w8,w9)
+        words = listOf(w,w1,w2,w3,w4,w5,w6,w7,w8,w9,word)
 
     }
 
@@ -168,7 +178,13 @@ class LearningService : Service() {
         var pos = words.indexOf(word)
         alreadyGivenWords.add(pos) // from here this word will not be drawn a second time for this
                                   // lesson
-        val swipeIntent =  Intent(this,LearningService::class.java).putExtra("swipe",1)
+
+        val swipeIntent =  Intent(this,NotificationDismissReceiver::class.java)
+
+        swipeIntent.putExtra("word",word.word).apply {
+                action = "dismiss"
+        }
+
         val notif = NotificationCompat.Builder(this,CHANNEL_ID)
             .setContentTitle(word.word)
             .setContentText("Tap to see translation")
@@ -178,10 +194,9 @@ class LearningService : Service() {
             .setContentIntent(
         PendingIntent.getActivity(this,0, launchBrowser(word.link),
             pendingFlag))
-            .setDeleteIntent(PendingIntent.getActivity(this,1, swipeIntent,
+            .setDeleteIntent(PendingIntent.getBroadcast(this,currentNotificationID, swipeIntent,
            pendingFlag))
             .build()
-
         currentNotificationID++
         return notif
     }
@@ -192,6 +207,7 @@ class LearningService : Service() {
      */
     private fun sendNotifications(nbOfNotifications:Int) {
         for (i in 0 until nbOfNotifications) {
+            Thread.sleep(500)
             notificationManager.notify(currentNotificationID, createNotification())
 
             // each notification should take a place in the number of notification to send
@@ -213,7 +229,7 @@ class LearningService : Service() {
         // The notification is used so we free the place for an other notification
         // in the next course
         val reamainingNotification = sharedPreferences.getInt(REMAINING_NOTIFICATIONS,1)
-        sharedPreferences.edit().putInt("nbNotifs",reamainingNotification + 1).apply()
+        sharedPreferences.edit().putInt(REMAINING_NOTIFICATIONS,reamainingNotification + 1).apply()
         return browserIntent
     }
 

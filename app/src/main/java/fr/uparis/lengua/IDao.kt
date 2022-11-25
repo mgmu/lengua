@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface IDao {
@@ -20,4 +21,10 @@ interface IDao {
 
     @Query("SELECT * FROM Dictionary")
     fun loadAllDictionaries(): LiveData<List<Dictionary>>
+
+    @Update
+    fun updateWord(word: Word): Int
+
+    @Query("SELECT * FROM Word WHERE word LIKE :word||'%'")
+    fun selectWord(word:String): LiveData<Word>
 }
