@@ -8,7 +8,7 @@ data class Dictionary(
     var link: String
 )
 
-@Entity(primaryKeys = ["word", "sourceLanguage", "destinationLanguage"])
+@Entity(primaryKeys = ["word", "sourceLanguage", "destinationLanguage", "link"])
 data class Word(
     var word: String,
     var sourceLanguage: String,

@@ -16,7 +16,12 @@ import fr.uparis.lengua.databinding.FragmentTranslationResearchBinding
 class TranslationResearchFragment:
     Fragment(R.layout.fragment_translation_research) {
 
+    private val HTTP = "http://"
+    private val HTTPS = "https://"
+    private val GOOGLE_URI = "www.google.fr/search?q="
+
     private lateinit var binding: FragmentTranslationResearchBinding
+    private lateinit var adapter: DictionaryRecyclerAdapter
     private val model: TranslationViewModel by activityViewModels()
 
     companion object {
@@ -27,27 +32,6 @@ class TranslationResearchFragment:
 
         @JvmStatic
         fun newInstance(adapter: DictionaryRecyclerAdapter) = TranslationResearchFragment(adapter)
-    }
-
-    override fun onStart() {
-
-        /* Observe changes in dictionaries of database */
-        model.allDictionaries.observe(viewLifecycleOwner) {
-            adapter.dictionaries = it
-            adapter.notifyDataSetChanged()
-        }
-
-        /* load all dictionaries */
-        model.loadAllDictionaries()
-
-        super.onStart()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding = FragmentTranslationResearchBinding.bind(view)
-        binding.dictionaryRecycler.layoutManager = LinearLayoutManager(context)
-        binding.dictionaryRecycler.adapter = adapter
     }
 
     override fun onCreateView(
