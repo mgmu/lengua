@@ -1,21 +1,23 @@
 package fr.uparis.lengua
 
 import android.app.*
+<<<<<<< HEAD
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.BroadcastReceiver
+=======
+>>>>>>> e0cf0df (rebased main)
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import java.util.*
-import java.util.function.LongToDoubleFunction
 import kotlin.random.Random
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import android.net.Uri
+<<<<<<< HEAD
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.LiveData
 import android.widget.Toast
@@ -25,6 +27,8 @@ import android.os.SystemClock
 
 
 
+=======
+>>>>>>> e0cf0df (rebased main)
 
 /**
  * This service allows the user to review words by using notifications.
