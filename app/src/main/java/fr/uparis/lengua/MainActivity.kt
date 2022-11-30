@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         /* Page names */
-        val names = listOf("Research", "Save")
+        val names = listOf("Research", "Save", "Cleaning")
 
         /* Fragments creation */
         val saveSearchFragment = SaveSearchFragment.newInstance()
