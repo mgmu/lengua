@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -13,7 +14,7 @@ import fr.uparis.lengua.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val model: TranslationViewModel by lazy { TranslationViewModel((application as TranslationApplication)) }
+    private val model: TranslationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,17 +22,16 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         /* Page names */
-        val names = listOf("Research")
+        val names = listOf("Research", "Save")
 
         /* Fragments creation */
-        val translationResearchFragment = TranslationResearchFragment.newInstance(
-            DictionaryRecyclerAdapter(model)
-        )
+        val saveSearchFragment = SaveSearchFragment.newInstance()
+        val translationResearchFragment = TranslationResearchFragment.newInstance()
 
         /* Pager Adapter */
         val pagerAdapter = ScreenSlidePagerAdapter(
             this,
-            mutableListOf(translationResearchFragment)
+            mutableListOf(translationResearchFragment, saveSearchFragment)
         )
 
         /* Attach pager adapter to pager */

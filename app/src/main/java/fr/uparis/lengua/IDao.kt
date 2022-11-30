@@ -10,10 +10,10 @@ import androidx.room.Update
 @Dao
 interface IDao {
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(entity = Word::class, onConflict = OnConflictStrategy.IGNORE)
     fun insertWord(word: Word): Long
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertDictionary(dictionary: Dictionary): Long
 
     @Query("SELECT * FROM Word")
