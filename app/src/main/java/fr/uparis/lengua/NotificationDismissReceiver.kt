@@ -19,7 +19,7 @@ class NotificationDismissReceiver : BroadcastReceiver() {
 //        dao = (context as TranslationApplication).database.iDao()
         val word = intent.extras!!.getString("word","incorrect word")
 //        val word1 = dao.selectWord(word).value
-        Log.d("logLengua","Dissmissed notification : $word")
+        Log.d("logLENGUA","Dissmissed notification : $word")
 
     }
 

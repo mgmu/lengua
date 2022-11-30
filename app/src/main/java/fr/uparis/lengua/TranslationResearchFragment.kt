@@ -31,6 +31,7 @@ class TranslationResearchFragment:
         private val DICTIONARY_LIST_FRAGMENT_TAG = "tag1"
 
         @JvmStatic
+<<<<<<< HEAD
         fun newInstance(adapter: DictionaryRecyclerAdapter) = TranslationResearchFragment(adapter)
     }
 
