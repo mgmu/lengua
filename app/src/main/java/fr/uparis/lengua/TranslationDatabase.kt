@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Dictionary::class, Word::class], version = 2)
+@Database(entities = [Dictionary::class, Word::class], version = 3)
 abstract class TranslationDatabase: RoomDatabase() {
     abstract fun iDao(): IDao
 

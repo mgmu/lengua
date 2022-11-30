@@ -1,22 +1,15 @@
 package fr.uparis.lengua
 
 import android.app.*
-import android.content.BroadcastReceiver
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import java.util.*
-import java.util.function.LongToDoubleFunction
 import kotlin.random.Random
 import android.content.Context
 import android.os.Build
-import android.os.SystemClock
 import androidx.core.app.NotificationCompat
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.viewmodel.viewModelFactory
-import android.widget.Toast
 import android.net.Uri
 
 /**
@@ -109,41 +102,64 @@ class LearningService : Service() {
      * TODO GET WORDS FROM DATABASE
      */
     private fun fillWords() {
-//        words = dao.loadAllWords().value!!
+//        words = dao.loadAllWords().value ?: listOf()
+//        Log.d("logLENGUA", dao.toString())
 
-        val word = Word("Film","fr","es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Film")
-        val w = Word("Truc","fr","es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Truc")
+        val word = Word(
+            "Film", "fr", "es",
+            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Film"
+        )
+        val w = Word(
+            "Truc", "fr", "es",
+            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Truc"
+        )
 
-        val w1 = Word("Livre","fr","es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Livre")
+        val w1 = Word(
+            "Livre", "fr", "es",
+            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Livre"
+        )
 
-        val w2 = Word("Bonjour","fr","es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Bonjour")
+        val w2 = Word(
+            "Bonjour", "fr", "es",
+            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Bonjour"
+        )
 
-        val w3 = Word("Maison","fr","es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Maison")
+        val w3 = Word(
+            "Maison", "fr", "es",
+            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Maison"
+        )
 
-        val w4 = Word("Cahier","fr","es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Cahier")
+        val w4 = Word(
+            "Cahier", "fr", "es",
+            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Cahier"
+        )
 
-        val w5 = Word("Voiture","fr","es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Voiture")
+        val w5 = Word(
+            "Voiture", "fr", "es",
+            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Voiture"
+        )
 
-        val w6 = Word("Lampe","fr","es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Lampe")
+        val w6 = Word(
+            "Lampe", "fr", "es",
+            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Lampe"
+        )
 
-        val w7 = Word("Test","fr","es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Test")
+        val w7 = Word(
+            "Test", "fr", "es",
+            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Test"
+        )
 
-        val w8 = Word("Lit","fr","es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Lit")
+        val w8 = Word(
+            "Lit", "fr", "es",
+            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Lit"
+        )
 
-        val w9 = Word("Mousse","fr","es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Mousse")
+        val w9 = Word(
+            "Mousse", "fr", "es",
+            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Mousse"
+        )
 
-        words = listOf(w,w1,w2,w3,w4,w5,w6,w7,w8,w9,word)
+        words = listOf(w, w1, w2, w3, w4, w5, w6, w7, w8, w9, word)
 
     }
 

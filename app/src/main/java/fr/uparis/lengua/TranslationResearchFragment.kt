@@ -24,28 +24,7 @@ class TranslationResearchFragment:
 
     companion object {
         @JvmStatic
-        fun newInstance(adapter: DictionaryRecyclerAdapter) = TranslationResearchFragment(adapter)
-    }
-
-    override fun onStart() {
-
-        /* Observe changes in dictionaries of database */
-        model.allDictionaries.observe(viewLifecycleOwner) {
-            adapter.dictionaries = it
-            adapter.notifyDataSetChanged()
-        }
-
-        /* load all dictionaries */
-        model.loadAllDictionaries()
-
-        super.onStart()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding = FragmentTranslationResearchBinding.bind(view)
-        binding.dictionaryRecycler.layoutManager = LinearLayoutManager(context)
-        binding.dictionaryRecycler.adapter = adapter
+        fun newInstance() = TranslationResearchFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
