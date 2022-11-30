@@ -16,12 +16,7 @@ import fr.uparis.lengua.databinding.FragmentTranslationResearchBinding
 class TranslationResearchFragment:
     Fragment(R.layout.fragment_translation_research) {
 
-    private val HTTP = "http://"
-    private val HTTPS = "https://"
-    private val GOOGLE_URI = "www.google.fr/search?q="
-
     private lateinit var binding: FragmentTranslationResearchBinding
-    private lateinit var adapter: DictionaryRecyclerAdapter
     private val model: TranslationViewModel by activityViewModels()
 
     companion object {
@@ -31,8 +26,7 @@ class TranslationResearchFragment:
         private val DICTIONARY_LIST_FRAGMENT_TAG = "tag1"
 
         @JvmStatic
-<<<<<<< HEAD
-        fun newInstance(adapter: DictionaryRecyclerAdapter) = TranslationResearchFragment(adapter)
+        fun newInstance() = TranslationResearchFragment()
     }
 
     override fun onCreateView(
