@@ -8,33 +8,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import fr.uparis.lengua.databinding.FragmentDictionaryListBinding
-import fr.uparis.lengua.databinding.FragmentDictionaryListListBinding
+import fr.uparis.lengua.databinding.FragmentWordListListBinding
 
 /**
- * A fragment representing a list of Dictionaries.
+ * A fragment representing a list of words.
  */
-class DictionaryListFragment : Fragment() {
+class WordListFragment : Fragment() {
     private val model: TranslationViewModel by activityViewModels()
-    private lateinit var binding: FragmentDictionaryListListBinding
+    private lateinit var binding: FragmentWordListListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(
-            R.layout.fragment_dictionary_list_list,
+            R.layout.fragment_word_list_list,
             container,
             false
         )
 
-        binding = FragmentDictionaryListListBinding.bind(view)
+        binding = FragmentWordListListBinding.bind(view)
 
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = LinearLayoutManager(context)
-                adapter = DictionaryRecyclerViewAdapter(model)
+                adapter = WordRecyclerViewAdapter(model)
             }
         }
         return view
@@ -43,18 +42,18 @@ class DictionaryListFragment : Fragment() {
     override fun onStart() {
 
         /* Update recycler when dictionaries in DB change. */
-        model.allDictionaries.observe(viewLifecycleOwner) {
+        model.allWords.observe(viewLifecycleOwner) {
             with (binding.list.adapter) {
                 if (this != null) {
-                    (this as DictionaryRecyclerViewAdapter)
-                    this.dictionaries = it
+                    (this as WordRecyclerViewAdapter)
+                    this.words = it
                     this.notifyDataSetChanged()
                 }
             }
         }
 
         /* load all dictionaries */
-        model.loadAllDictionaries()
+        model.loadAllWords()
 
         super.onStart()
 
@@ -62,6 +61,6 @@ class DictionaryListFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = DictionaryListFragment()
+        fun newInstance() = WordListFragment()
     }
 }

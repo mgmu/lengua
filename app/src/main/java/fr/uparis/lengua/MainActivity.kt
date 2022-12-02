@@ -25,11 +25,12 @@ class MainActivity : AppCompatActivity() {
         /* Fragments creation */
         val saveSearchFragment = SaveSearchFragment.newInstance()
         val translationResearchFragment = TranslationResearchFragment.newInstance()
+        val dbCleaningFragment = DbCleaningFragment.newInstance()
 
         /* Pager Adapter */
         val pagerAdapter = ScreenSlidePagerAdapter(
             this,
-            mutableListOf(translationResearchFragment, saveSearchFragment)
+            mutableListOf(translationResearchFragment, saveSearchFragment, dbCleaningFragment)
         )
 
         /* Attach pager adapter to pager */
