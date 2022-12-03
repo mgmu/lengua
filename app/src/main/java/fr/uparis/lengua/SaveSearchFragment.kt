@@ -51,6 +51,14 @@ class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
 
             /* Insert word in DB */
             model.insertWord(Word(word, srcL, destL, uriWord))
+
+            /* Reset fields */
+            with (binding) {
+                wordToSaveEditText.text.clear()
+                sourceLanguageEditText.text.clear()
+                destinationLanguageEditText.text.clear()
+                translationUriEditText.text.toString()
+            }
         }
 
         /* On Save dictionary button click, add dictionary to DB */
@@ -66,6 +74,12 @@ class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
 
             /* Insert dictionary in DB */
             model.insertDictionary(Dictionary(dictName, dictUri))
+
+            /* Reset fields */
+            with (binding) {
+                dictionaryNameEditText.text.clear()
+                dictionaryUriEditText.text.clear()
+            }
         }
 
         /* Display a toast when word or dictionary insertion finishes */

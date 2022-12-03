@@ -11,11 +11,10 @@
         android:layout_height="wrap_content"
         android:text="@string/dictionaries_list" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/dictionaryRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/search_word_editText"

@@ -4,7 +4,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -14,44 +16,41 @@ import fr.uparis.lengua.databinding.FragmentTranslationResearchBinding
 class TranslationResearchFragment:
     Fragment(R.layout.fragment_translation_research) {
 
-    private val HTTP = "http://"
-    private val HTTPS = "https://"
-    private val GOOGLE_URI = "www.google.fr/search?q="
-
     private lateinit var binding: FragmentTranslationResearchBinding
-    private lateinit var adapter: DictionaryRecyclerAdapter
     private val model: TranslationViewModel by activityViewModels()
 
     companion object {
+        private val HTTP = "http://"
+        private val HTTPS = "https://"
+        private val GOOGLE_URI = "www.google.fr/search?q="
+        private val DICTIONARY_LIST_FRAGMENT_TAG = "tag1"
+
         @JvmStatic
         fun newInstance() = TranslationResearchFragment()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        adapter = DictionaryRecyclerAdapter(model)
-        Log.d("logLengua", "initialized adapter")
-    }
-
-    override fun onStart() {
-
-        /* Observe changes in dictionaries of database */
-        model.allDictionaries.observe(viewLifecycleOwner) {
-            adapter.dictionaries = it
-            adapter.notifyDataSetChanged()
-        }
-
-        /* load all dictionaries */
-        model.loadAllDictionaries()
-
-        super.onStart()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val v = super.onCreateView(inflater, container, savedInstanceState)
+        binding = FragmentTranslationResearchBinding.bind(v!!)
+        return v
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentTranslationResearchBinding.bind(view)
-        binding.dictionaryRecycler.layoutManager = LinearLayoutManager(context)
-        binding.dictionaryRecycler.adapter = adapter
+
+        /* Place dictionary list fragment. */
+        childFragmentManager.beginTransaction()
+            .replace(
+                R.id.fragment_container_view,
+                DictionaryListFragment.newInstance(),
+                DICTIONARY_LIST_FRAGMENT_TAG
+            )
+            .addToBackStack(DICTIONARY_LIST_FRAGMENT_TAG)
+            .commit()
 
         /* Launch search in web browser on click */
         binding.searchWordButton.setOnClickListener {
@@ -70,5 +69,7 @@ class TranslationResearchFragment:
                     Toast.makeText(context, "Invalid URI...", Toast.LENGTH_SHORT).show()
             }
         }
+
+        Log.d("logLENGUA","made it")
     }
 }

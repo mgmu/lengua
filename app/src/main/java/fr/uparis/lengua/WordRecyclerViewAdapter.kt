@@ -1,0 +1,75 @@
+package fr.uparis.lengua
+
+import android.graphics.Color
+import android.util.Log
+import androidx.recyclerview.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import fr.uparis.lengua.databinding.ItemLayoutBinding
+
+class WordRecyclerViewAdapter(private val model: TranslationViewModel):
+    RecyclerView.Adapter<WordRecyclerViewAdapter.VH>() {
+
+    /* List of dictionaries to display */
+    var words: List<Word> = listOf()
+
+    class VH(val binding: ItemLayoutBinding): RecyclerView.ViewHolder(binding.root) {
+        var word: Word? = null
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+
+        Log.d("logLENGUA", "made it 2")
+
+        /* Binding for Word item */
+        val itemBinding = ItemLayoutBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        val holder = VH(itemBinding)
+
+        /* Selection listener */
+        holder.binding.root.setOnClickListener {
+            when (model.selectedWord.value) {
+                null -> { /* No selected Word */
+                    model.selectedWord.value = holder.word
+                    notifyItemChanged(words.indexOf(holder.word))
+                }
+
+                holder.word -> { /* Unselect Word */
+                    model.selectedWord.value = null
+                    notifyItemChanged(words.indexOf(holder.word))
+                }
+
+                else -> { /* Change selected Word */
+                    val previous = model.selectedWord.value
+                    model.selectedWord.value = holder.word
+                    notifyItemChanged(words.indexOf(holder.word))
+                    notifyItemChanged(words.indexOf(previous))
+                }
+            }
+        }
+
+        return holder
+    }
+
+    override fun onBindViewHolder(holder: VH, position: Int) {
+
+        /* assign corresponding Word */
+        holder.word = words[position]
+
+        /* assign values to corresponding fields and item background color */
+        with (holder.binding) {
+
+            val color =
+                if (holder.word == model.selectedWord.value)
+                    Color.RED   /* selected color */
+                else if (position % 2 == 0)
+                    Color.BLUE  /* even color */
+                else
+                    Color.GREEN /* odd color */
+
+            holder.itemView.setBackgroundColor(color)
+        }
+    }
+
+    override fun getItemCount(): Int = words.size
+}
