@@ -1,13 +1,14 @@
 package fr.uparis.lengua
 
 import android.graphics.Color
+import android.util.Log
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import fr.uparis.lengua.databinding.ItemLayoutBinding
 
-class DictionaryRecyclerAdapter(private val model: TranslationViewModel):
-    RecyclerView.Adapter<DictionaryRecyclerAdapter.VH>() {
+class DictionaryRecyclerViewAdapter(private val model: TranslationViewModel):
+    RecyclerView.Adapter<DictionaryRecyclerViewAdapter.VH>() {
 
     /* List of dictionaries to display */
     var dictionaries: List<Dictionary> = listOf()
@@ -17,6 +18,8 @@ class DictionaryRecyclerAdapter(private val model: TranslationViewModel):
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+
+        Log.d("logLENGUA", "made it 2")
 
         /* Binding for dictionary item */
         val itemBinding = ItemLayoutBinding

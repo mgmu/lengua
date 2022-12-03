@@ -14,16 +14,33 @@ class TranslationViewModel(app: Application): AndroidViewModel(app) {
     private val dao = (app as TranslationApplication).database.iDao()
 
     /**
-     *  All dictionaries of database
+     * All dictionaries of database
      */
     var allDictionaries: LiveData<List<Dictionary>> = loadAllDictionaries()
 
     /**
-     *  Selected dictionary in research page
+     * All words of database
+     */
+    var allWords: LiveData<List<Word>> = loadAllWords()
+
+    /**
+     * Selected dictionary
      */
     var selectedDictionary = MutableLiveData<Dictionary>()
 
+    /**
+     * Selected word
+     */
+    var selectedWord = MutableLiveData<Word>()
+
+    /**
+     * Keeps track of the word insertion result
+     */
     val insertWordResult = MutableLiveData<Long>()
+
+    /**
+     * Keeps track of the dictionary insertion result
+     */
     val insertDictionaryResult = MutableLiveData<Long>()
 
     /**
@@ -32,7 +49,7 @@ class TranslationViewModel(app: Application): AndroidViewModel(app) {
     fun loadAllDictionaries() = dao.loadAllDictionaries()
 
     /**
-     *  Loads all words in database
+     * Loads all words in database
      */
     fun loadAllWords() = dao.loadAllWords()
 
@@ -40,6 +57,11 @@ class TranslationViewModel(app: Application): AndroidViewModel(app) {
      * Returns true if a dictionary is selected.
      */
     fun isDictionarySelected(): Boolean = selectedDictionary.value != null
+
+    /**
+     * Returns true if a word is selected.
+     */
+    fun isWordSelected(): Boolean = selectedWord.value != null
 
     /**
      * Inserts a word in the database
