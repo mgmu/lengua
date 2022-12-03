@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         val translationResearchFragment = TranslationResearchFragment.newInstance()
         val dbCleaningFragment = DbCleaningFragment.newInstance()
 
-
         /* Pager Adapter */
         val pagerAdapter = ScreenSlidePagerAdapter(
             this,
