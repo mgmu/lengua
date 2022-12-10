@@ -90,7 +90,6 @@ class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
             Log.d("logLENGUA", "triming...")
             with (binding.dictionaryUriEditText) {
                 setText(removeAfterLastSlashContent(text.toString()).removeSuffix("/"))
-
             }
         }
 
