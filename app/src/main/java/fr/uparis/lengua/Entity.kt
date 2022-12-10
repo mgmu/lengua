@@ -13,5 +13,6 @@ data class Word(
     var word: String,
     var sourceLanguage: String,
     var destinationLanguage: String,
-    var link: String
+    var link: String,
+    var swiped: Int
 )

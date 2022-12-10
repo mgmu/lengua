@@ -11,11 +11,13 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import android.net.Uri
+import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.LiveData
 
 /**
  * This service allows the user to review words by using notifications.
  */
-class LearningService : Service() {
+class LearningService : LifecycleService() {
 
 
     private val REMAINING_NOTIFICATIONS = "number of notifications to send for next course"
@@ -43,7 +45,8 @@ class LearningService : Service() {
     /**
      * Stores the the words of the database
      */
-    private lateinit var words : List<Word>
+    private lateinit var words : LiveData<List<Word>>
+    private  var wl : List<Word>? = null
 
     /**
      * Getting notification manager
@@ -75,92 +78,37 @@ class LearningService : Service() {
      */
     override fun onCreate() {
         super.onCreate()
+        words = dao.loadAllWords()
+      //  fillWords()
+        words.observe(this){
+            wl = it?: listOf()
+            Log.d("logLENGUA"," it : $it")
+            Log.d("logLENGUA"," wl : $wl")
+        }
         Log.d("logLENGUA","onCreateService")
         createNotificationChannel()
-        fillWords()
         getApplication().registerReceiver(dismissReceiver, IntentFilter("dismiss"))
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
         Log.d("logLENGUA","onstartCommand")
 
         // the actual lesson will not be influenced by the last lesson choices
         alreadyGivenWords.clear()
         sharedPreferences.edit().putInt(REMAINING_NOTIFICATIONS,10).apply()
         var remainingPlace =  sharedPreferences.getInt(REMAINING_NOTIFICATIONS,3)
+        if (wl == null){
+            remainingPlace = 0
+        }
         sendNotifications(remainingPlace)
         triggerAlarm()
         return START_NOT_STICKY
     }
 
     override fun onBind(intent: Intent): IBinder {
+        super.onBind(intent)
         TODO("Return the communication channel to the service.")
-    }
-
-    /**
-     * Fills words list manually for tests
-     * TODO GET WORDS FROM DATABASE
-     */
-    private fun fillWords() {
-//        words = dao.loadAllWords().value ?: listOf()
-//        Log.d("logLENGUA", dao.toString())
-
-        val word = Word(
-            "Film", "fr", "es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Film"
-        )
-        val w = Word(
-            "Truc", "fr", "es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Truc"
-        )
-
-        val w1 = Word(
-            "Livre", "fr", "es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Livre"
-        )
-
-        val w2 = Word(
-            "Bonjour", "fr", "es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Bonjour"
-        )
-
-        val w3 = Word(
-            "Maison", "fr", "es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Maison"
-        )
-
-        val w4 = Word(
-            "Cahier", "fr", "es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Cahier"
-        )
-
-        val w5 = Word(
-            "Voiture", "fr", "es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Voiture"
-        )
-
-        val w6 = Word(
-            "Lampe", "fr", "es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Lampe"
-        )
-
-        val w7 = Word(
-            "Test", "fr", "es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Test"
-        )
-
-        val w8 = Word(
-            "Lit", "fr", "es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Lit"
-        )
-
-        val w9 = Word(
-            "Mousse", "fr", "es",
-            "https://www.reverso.net/traduction-texte#sl=fra&tl=spa&text=Mousse"
-        )
-
-        words = listOf(w, w1, w2, w3, w4, w5, w6, w7, w8, w9, word)
-
     }
 
     /**
@@ -171,8 +119,8 @@ class LearningService : Service() {
     private fun getRandomWord(): Word{
         var position = 0;
         while (position in alreadyGivenWords)
-            position = Random.nextInt(words.size)
-        return words[position]
+            position = Random.nextInt(wl!!.size)
+        return wl!!.get(position)
     }
 
     /**
@@ -203,7 +151,8 @@ class LearningService : Service() {
     private fun createNotification(): Notification {
 
         val word = getRandomWord()
-        var pos = words.indexOf(word)
+        Log.d("logLENGUA", "current word : $word")
+        var pos = wl!!.indexOf(word)
         alreadyGivenWords.add(pos) // from here this word will not be drawn a second time for this
                                   // lesson
 
@@ -236,6 +185,8 @@ class LearningService : Service() {
     private fun sendNotifications(nbOfNotifications:Int) {
         for (i in 0 until nbOfNotifications) {
             Thread.sleep(500)
+            Log.d("logLENGUA","SENDING NOTIFS")
+            Log.d("logLENGUA","notif id : $currentNotificationID")
             notificationManager.notify(currentNotificationID, createNotification())
 
             // each notification should take a place in the number of notification to send
