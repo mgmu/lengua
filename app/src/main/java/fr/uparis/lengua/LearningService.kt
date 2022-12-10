@@ -6,9 +6,6 @@ import android.os.IBinder
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.content.Intent
-import android.content.IntentFilter
-import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import java.util.*
@@ -21,7 +18,6 @@ import android.net.Uri
 import android.os.Build
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.viewModelFactory
-
 
 /**
  * This service allows the user to review words by using notifications.
