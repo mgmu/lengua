@@ -52,7 +52,8 @@ class TranslationResearchFragment:
             .addToBackStack(DICTIONARY_LIST_FRAGMENT_TAG)
             .commit()
 
-        /* Launch search in web browser on click */
+        /* Launch search in web browser with selected URI on click
+         * If no link is selected, launches the search with Google URI */
         binding.searchWordButton.setOnClickListener {
             val wordToSearch = binding.searchWordEditText.text.toString()
             if (wordToSearch.isNotBlank()) {
@@ -61,15 +62,26 @@ class TranslationResearchFragment:
                         "${model.selectedDictionary.value!!.link}/$wordToSearch"
                     else
                         "$HTTPS$GOOGLE_URI$wordToSearch"
-                if (searchUri.startsWith(HTTP) || searchUri.startsWith(HTTPS)) {
-                    val webIntent = Intent(Intent.ACTION_VIEW)
-                    webIntent.data = Uri.parse(searchUri)
-                    startActivity(webIntent)
-                } else
+                startWebIntent(searchUri)
+            } else
                     Toast.makeText(context, "Invalid URI...", Toast.LENGTH_SHORT).show()
-            }
         }
 
-        Log.d("logLENGUA","made it")
+        /* Launch search*/
+        binding.otherSearchWordButton.setOnClickListener {
+            val wordToSearch = binding.searchWordEditText.text.toString()
+            if (wordToSearch.isNotBlank()) {
+                val searchUri = "$HTTPS$GOOGLE_URI$wordToSearch"
+                startWebIntent(searchUri)
+            }
+        }
+    }
+
+    fun startWebIntent(uri: String) {
+        if (uri.startsWith(HTTP) || uri.startsWith(HTTPS)) {
+            val webIntent = Intent(Intent.ACTION_VIEW)
+            webIntent.data = Uri.parse(uri)
+            startActivity(webIntent)
+        }
     }
 }
