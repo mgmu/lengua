@@ -2,7 +2,7 @@ package fr.uparis.lengua
 
 import androidx.room.Entity
 
-@Entity(primaryKeys = ["name", "link"])
+@Entity(primaryKeys = ["link"])
 data class Dictionary(
     var name: String,
     var link: String
