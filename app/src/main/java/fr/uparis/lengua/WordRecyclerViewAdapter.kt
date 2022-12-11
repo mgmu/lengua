@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import fr.uparis.lengua.databinding.ItemLayoutBinding
+import fr.uparis.lengua.databinding.ItemLayout2Binding
 
 class WordRecyclerViewAdapter(private val model: TranslationViewModel):
     RecyclerView.Adapter<WordRecyclerViewAdapter.VH>() {
@@ -13,7 +13,7 @@ class WordRecyclerViewAdapter(private val model: TranslationViewModel):
     /* List of dictionaries to display */
     var words: List<Word> = listOf()
 
-    class VH(val binding: ItemLayoutBinding): RecyclerView.ViewHolder(binding.root) {
+    class VH(val binding: ItemLayout2Binding): RecyclerView.ViewHolder(binding.root) {
         var word: Word? = null
     }
 
@@ -22,7 +22,7 @@ class WordRecyclerViewAdapter(private val model: TranslationViewModel):
         Log.d("logLENGUA", "made it 2")
 
         /* Binding for Word item */
-        val itemBinding = ItemLayoutBinding
+        val itemBinding = ItemLayout2Binding
             .inflate(LayoutInflater.from(parent.context), parent, false)
         val holder = VH(itemBinding)
 
@@ -58,6 +58,10 @@ class WordRecyclerViewAdapter(private val model: TranslationViewModel):
 
         /* assign values to corresponding fields and item background color */
         with (holder.binding) {
+            wordWordTextView.text = holder.word!!.word
+            wordSourceLanguageTextView.text = holder.word!!.sourceLanguage
+            wordDestinationLanguageTextView.text = holder.word!!.destinationLanguage
+            wordLinkTextView.text = holder.word!!.link
 
             val color =
                 if (holder.word == model.selectedWord.value)
