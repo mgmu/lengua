@@ -12,13 +12,10 @@ import java.util.*
 import kotlin.random.Random
 import android.content.Context
 import android.os.Build
-import androidx.core.app.NotificationCompat
 import android.net.Uri
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.LiveData
 import android.widget.Toast
-import android.net.Uri
-import android.os.Build
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.viewModelFactory
 import android.os.SystemClock
