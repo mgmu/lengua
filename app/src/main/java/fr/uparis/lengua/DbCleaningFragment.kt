@@ -1,6 +1,5 @@
 package fr.uparis.lengua
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,8 +13,12 @@ import android.widget.Spinner
 import fr.uparis.lengua.databinding.FragmentDbCleaningBinding
 
 class DbCleaningFragment : Fragment(), OnItemSelectedListener {
+    private val DICT_TAG = "Dictionaries"
+    private val WORD_TAG = "Words"
 
     private lateinit var binding: FragmentDbCleaningBinding
+
+    private lateinit var displayedTag: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,23 +49,34 @@ class DbCleaningFragment : Fragment(), OnItemSelectedListener {
         /* Set action performed on spinner item click */
         spinner.onItemSelectedListener = this
 
-        /* According to spinner selection, display corresponding fragment. */
-        val containerViewId = R.id.list_fragment_container_view
-        val fragment =
-            if (spinner.selectedItem.toString() == "Dictionaries")
-                DictionaryListFragment.newInstance()
-            else
-                WordListFragment.newInstance()
+        /* According to spinner first selection, display corresponding fragment. */
+        displayFragmentOfTag(spinner.selectedItem.toString())
+    }
 
-        // Place fragment
+    private fun displayFragmentOfTag(tag: String) {
+        Log.d("logLENGUA", "display fragment of : $tag")
+        val containerId = R.id.list_fragment_container_view
+        val tag2: String
+        val fragment: Fragment
+
+        if (tag == DICT_TAG) {
+            fragment = DictionaryListFragment.newInstance()
+            tag2 = tag
+        } else { /* Display Word list if invalid tag */
+            fragment = WordListFragment.newInstance()
+            tag2 = WORD_TAG
+        }
+
         childFragmentManager.beginTransaction()
             .replace(
-                containerViewId,
+                containerId,
                 fragment,
-                null
+                tag2
             )
             .addToBackStack(null)
             .commit()
+
+        displayedTag = tag2
     }
 
     companion object {
@@ -75,11 +89,20 @@ class DbCleaningFragment : Fragment(), OnItemSelectedListener {
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
         val selected = parent.getItemAtPosition(pos) as String
-        /* change list fragment displayed */
-        Log.d("logLENGUA", "cleaning $selected")
+
+        Log.d("logLENGUA", "Selected: $selected")
+
+        /* Check if selected element is already displayed */
+        if (selected != displayedTag) {/* Update list fragment if not already displayed */
+            Log.d("logLENGUA", "not already displayed")
+            displayFragmentOfTag(selected)
+        } else {
+            Log.d("logLENGUA", "already displayed")
+        }
+
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
-        // Another interface callback
+        /* do nothing */
     }
 }
