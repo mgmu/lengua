@@ -102,7 +102,7 @@ class LearningService : LifecycleService() {
         alreadyGivenWords.clear()
         sharedPreferences.edit().putInt(REMAINING_NOTIFICATIONS,10).apply()
         var remainingPlace =  sharedPreferences.getInt(REMAINING_NOTIFICATIONS,3)
-        if (wl == null){
+        if (wl == null || wl!!.isEmpty()){
             remainingPlace = 0
         }
         sendNotifications(remainingPlace)
