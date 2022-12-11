@@ -22,6 +22,7 @@ class WordRecyclerViewAdapter(private val model: TranslationViewModel):
         Log.d("logLENGUA", "made it 2")
 
         /* Binding for Word item */
+
         val itemBinding = ItemLayout2Binding
             .inflate(LayoutInflater.from(parent.context), parent, false)
         val holder = VH(itemBinding)

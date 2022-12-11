@@ -53,7 +53,7 @@ class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
                 return@setOnClickListener
 
             /* Insert word in DB */
-            model.insertWord(Word(word, srcL, destL, uriWord))
+            model.insertWord(Word(word, srcL, destL, uriWord, 0))
 
             /* Reset fields */
             with (binding) {
