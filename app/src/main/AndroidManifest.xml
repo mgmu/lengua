@@ -17,7 +17,7 @@
             android:name=".NotificationDismissReceiver"
             android:enabled="true"
             android:exported="false"></receiver>
-
+        
         <activity
             android:name=".SaveSearchActivity"
             android:exported="true"
