@@ -24,6 +24,10 @@ class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
         return inflater.inflate(R.layout.fragment_save_search, container, false)
     }
 
+    fun removeAfterLastSlashContent(uri: String): String {
+        return uri.replaceAfterLast("/", "")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSaveSearchBinding.bind(view)
@@ -31,7 +35,6 @@ class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
         /* Get translation uri value if present */
         val translationUri = requireArguments().getString(URI_KEY, "")
         if (translationUri.isNotBlank()) {
-            /* Place it as is in translation uri edit text */
             binding.translationUriEditText.setText(translationUri)
             binding.dictionaryUriEditText.setText(translationUri)
         }
@@ -79,6 +82,14 @@ class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
             with (binding) {
                 dictionaryNameEditText.text.clear()
                 dictionaryUriEditText.text.clear()
+            }
+        }
+
+        /* On Trim Link button click, trim content after last slash it dictionary URI */
+        binding.trimLinkButton.setOnClickListener {
+            Log.d("logLENGUA", "triming...")
+            with (binding.dictionaryUriEditText) {
+                setText(removeAfterLastSlashContent(text.toString()).removeSuffix("/"))
             }
         }
 
