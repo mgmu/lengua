@@ -97,17 +97,23 @@ class LearningService : LifecycleService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-        Log.d("logLENGUA","onstartCommand")
+        Log.d("logLENGUA","1 - onstartCommand")
 
         // the actual lesson will not be influenced by the last lesson choices
+        Log.d("logLENGUA","2 - before clearing already given words list")
         alreadyGivenWords.clear()
         sharedPreferences.edit().putInt(REMAINING_NOTIFICATIONS,10).apply()
         var remainingPlace =  sharedPreferences.getInt(REMAINING_NOTIFICATIONS,3)
+        Log.d("logLENGUA","3 - before checking if wl(the list of word) is empty or null")
         if (wl == null || wl!!.isEmpty()){
+            Log.d("logLENGUA","4 - wl(the list of word) is empty or null")
             remainingPlace = 0
         }
+        Log.d("logLENGUA","5 - before calling sendNotifications function ( remaining places : $remainingPlace)")
         sendNotifications(remainingPlace)
+        Log.d("logLENGUA","6 - before calling triggerAlarm function ( remaining places : $remainingPlace)")
         triggerAlarm()
+        Log.d("logLENGUA","7 - after calling triggerAlarm function ( remaining places : $remainingPlace)")
         return START_NOT_STICKY
     }
 
@@ -188,6 +194,8 @@ class LearningService : LifecycleService() {
      * @param nbOfNotifications will be sent
      */
     private fun sendNotifications(nbOfNotifications:Int) {
+
+        Log.d("logLENGUA","5.1 - in sendNotifications function ( remaining places : $nbOfNotifications)")
         for (i in 0 until nbOfNotifications) {
             Thread.sleep(500)
             Log.d("logLENGUA","SENDING NOTIFS")
@@ -198,6 +206,7 @@ class LearningService : LifecycleService() {
             var sentLeft = sharedPreferences.getInt(REMAINING_NOTIFICATIONS, nbOfNotifications)
             sharedPreferences.edit().putInt(REMAINING_NOTIFICATIONS, sentLeft-1).apply()
         }
+        Log.d("logLENGUA","5.2 - after sending loop")
     }
 
     /**
@@ -223,10 +232,12 @@ class LearningService : LifecycleService() {
      * If there are not info in sharedPreferences the lesson takes place everyday at 8 O'clock
      */
     private fun triggerAlarm() {
+
+        Log.d("logLENGUA","6.1 - in triggerAlarm function")
         val calendar: Calendar = Calendar.getInstance().apply {
         timeInMillis = System.currentTimeMillis()
-        set(Calendar.HOUR_OF_DAY, sharedPreferences.getInt(HOUR_,8))
-            set(Calendar.MINUTE,sharedPreferences.getInt(MINUTE_,0))
+        set(Calendar.HOUR_OF_DAY, sharedPreferences.getInt(HOUR_,12))
+            set(Calendar.MINUTE,sharedPreferences.getInt(MINUTE_,37))
         }
 
         val intent = Intent(this, LearningService::class.java)

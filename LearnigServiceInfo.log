@@ -1,0 +1,114 @@
+ACTIVITY MANAGER SERVICES (dumpsys activity services)
+  Last ANR service:
+ServiceRecord{813d090 u0 fr.uparis.lengua/.LearningService}
+    intent={cmp=fr.uparis.lengua/.LearningService}
+    packageName=fr.uparis.lengua
+    processName=fr.uparis.lengua
+    baseDir=/data/app/~~s8GZDZKd0fq1PRS-VfGPCg==/fr.uparis.lengua-jlGumAneesrixMpUl6Odfg==/base.apk
+    dataDir=/data/user/0/fr.uparis.lengua
+    app=ProcessRecord{4561bf4 6549:fr.uparis.lengua/u0a615}
+    allowWhileInUsePermissionInFgs=true
+    recentCallingPackage=fr.uparis.lengua
+    recentCallingUid=10615
+    allowStartForeground=PROC_STATE_TOP
+    startForegroundCount=0
+    infoAllowStartForeground=[callingPackage: fr.uparis.lengua; callingUid: 10615; uidState: TOP ; intent: Intent { cmp=fr.uparis.lengua/.LearningService }; code:PROC_STATE_TOP; tempAllowListReason:<null>; targetSdkVersion:33; callerTargetSdkVersion:33; startForegroundCount:0; bindFromPackage:null]
+    createTime=-1m39s45ms startingBgTimeout=--
+    lastActivity=-30s2ms restartTime=-1m39s44ms createdFromFg=true
+    startRequested=true delayedStop=false stopIfKilled=true callStart=false lastStartId=2
+    executeNesting=1 executeFg=true executingStart=-30s2ms
+    Delivered Starts:
+    #0 id=2 dur=-30s2ms dc=1
+      intent=Intent { cmp=fr.uparis.lengua/.LearningService }
+
+  Destroying services:
+  * Destroy ServiceRecord{38813ee u0 fr.uparis.lengua/.LearningService}
+    intent={cmp=fr.uparis.lengua/.LearningService}
+    packageName=fr.uparis.lengua
+    processName=fr.uparis.lengua
+    baseDir=/data/app/~~u26iomzx1DKTIw22NtsydA==/fr.uparis.lengua-85j2mVj7fZTQexBDl9NbnQ==/base.apk
+    dataDir=/data/user/0/fr.uparis.lengua
+    app=null
+    allowWhileInUsePermissionInFgs=false
+    recentCallingPackage=fr.uparis.lengua
+    recentCallingUid=10614
+    allowStartForeground=DENIED
+    startForegroundCount=0
+    infoAllowStartForeground=null
+    createTime=-12h31m35s171ms startingBgTimeout=--
+    lastActivity=-5h39m29s68ms restartTime=-- createdFromFg=false
+    startRequested=false delayedStop=false stopIfKilled=true callStart=false lastStartId=2
+    destroying=true destroyTime=-5h39m29s50ms
+    restartCount=0 restartDelay=-5h39m29s418ms nextRestartTime=-5h39m29s418ms crashCount=1
+  * Destroy ServiceRecord{c8c98ec u0 fr.uparis.lengua/.LearningService}
+    intent={cmp=fr.uparis.lengua/.LearningService}
+    packageName=fr.uparis.lengua
+    processName=fr.uparis.lengua
+    baseDir=/data/app/~~jEP9MinbWSIQdb0Fxx-miw==/fr.uparis.lengua-arsNfm7Ctvt-CXEqaeweBQ==/base.apk
+    dataDir=/data/user/0/fr.uparis.lengua
+    app=null
+    allowWhileInUsePermissionInFgs=false
+    recentCallingPackage=fr.uparis.lengua
+    recentCallingUid=10615
+    allowStartForeground=DENIED
+    startForegroundCount=0
+    infoAllowStartForeground=null
+    createTime=-1h35m47s962ms startingBgTimeout=--
+    lastActivity=-1h32m51s44ms restartTime=-- createdFromFg=false
+    startRequested=false delayedStop=false stopIfKilled=true callStart=false lastStartId=2
+    destroying=true destroyTime=-1h32m51s24ms
+    restartCount=0 restartDelay=-1h32m51s201ms nextRestartTime=-1h32m51s201ms crashCount=0
+  * Destroy ServiceRecord{db57fd1 u0 fr.uparis.lengua/.LearningService}
+    intent={cmp=fr.uparis.lengua/.LearningService}
+    packageName=fr.uparis.lengua
+    processName=fr.uparis.lengua
+    baseDir=/data/app/~~jEP9MinbWSIQdb0Fxx-miw==/fr.uparis.lengua-arsNfm7Ctvt-CXEqaeweBQ==/base.apk
+    dataDir=/data/user/0/fr.uparis.lengua
+    app=null
+    allowWhileInUsePermissionInFgs=false
+    recentCallingPackage=fr.uparis.lengua
+    recentCallingUid=10615
+    allowStartForeground=DENIED
+    startForegroundCount=0
+    infoAllowStartForeground=null
+    createTime=-1h30m13s348ms startingBgTimeout=--
+    lastActivity=-1h24m11s243ms restartTime=-- createdFromFg=false
+    startRequested=false delayedStop=false stopIfKilled=true callStart=false lastStartId=2
+    destroying=true destroyTime=-1h24m11s238ms
+    restartCount=0 restartDelay=-1h24m11s408ms nextRestartTime=-1h24m11s408ms crashCount=1
+  * Destroy ServiceRecord{ead81c0 u0 fr.uparis.lengua/.LearningService}
+    intent={cmp=fr.uparis.lengua/.LearningService}
+    packageName=fr.uparis.lengua
+    processName=fr.uparis.lengua
+    baseDir=/data/app/~~s8GZDZKd0fq1PRS-VfGPCg==/fr.uparis.lengua-jlGumAneesrixMpUl6Odfg==/base.apk
+    dataDir=/data/user/0/fr.uparis.lengua
+    app=null
+    allowWhileInUsePermissionInFgs=false
+    recentCallingPackage=fr.uparis.lengua
+    recentCallingUid=10615
+    allowStartForeground=DENIED
+    startForegroundCount=0
+    infoAllowStartForeground=null
+    createTime=-33m23s708ms startingBgTimeout=--
+    lastActivity=-29m14s50ms restartTime=-- createdFromFg=false
+    startRequested=false delayedStop=false stopIfKilled=true callStart=false lastStartId=2
+    destroying=true destroyTime=-29m14s37ms
+    restartCount=0 restartDelay=-29m14s231ms nextRestartTime=-29m14s231ms crashCount=1
+  * Destroy ServiceRecord{813d090 u0 fr.uparis.lengua/.LearningService}
+    intent={cmp=fr.uparis.lengua/.LearningService}
+    packageName=fr.uparis.lengua
+    processName=fr.uparis.lengua
+    baseDir=/data/app/~~s8GZDZKd0fq1PRS-VfGPCg==/fr.uparis.lengua-jlGumAneesrixMpUl6Odfg==/base.apk
+    dataDir=/data/user/0/fr.uparis.lengua
+    app=null
+    allowWhileInUsePermissionInFgs=false
+    recentCallingPackage=fr.uparis.lengua
+    recentCallingUid=10615
+    allowStartForeground=DENIED
+    startForegroundCount=0
+    infoAllowStartForeground=null
+    createTime=-12m24s57ms startingBgTimeout=--
+    lastActivity=-9m20s536ms restartTime=-- createdFromFg=false
+    startRequested=false delayedStop=false stopIfKilled=true callStart=false lastStartId=2
+    destroying=true destroyTime=-9m20s516ms
+    restartCount=0 restartDelay=-9m20s721ms nextRestartTime=-9m20s721ms crashCount=1
