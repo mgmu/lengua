@@ -82,4 +82,10 @@ class TranslationViewModel(app: Application): AndroidViewModel(app) {
             insertDictionaryResult.postValue(dao.insertDictionary(dict))
         }
     }
+
+    /* SaveSearchFragment EditText values saved on configuration change. */
+    var dictionaryName: String? = null
+    var wordToSave: String? = null
+    var srcLanguage: String? = null
+    var destLanguage: String? = null
 }
