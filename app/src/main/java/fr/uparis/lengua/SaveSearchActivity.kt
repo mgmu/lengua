@@ -2,6 +2,7 @@ package fr.uparis.lengua
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import fr.uparis.lengua.databinding.ActivitySaveSearchBinding
 
