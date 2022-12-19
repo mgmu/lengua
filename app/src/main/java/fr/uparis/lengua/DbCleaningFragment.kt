@@ -10,15 +10,13 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.fragment.app.activityViewModels
 import fr.uparis.lengua.databinding.FragmentDbCleaningBinding
 
 class DbCleaningFragment : Fragment(), OnItemSelectedListener {
-    private val DICT_TAG = "Dictionaries"
-    private val WORD_TAG = "Words"
-
     private lateinit var binding: FragmentDbCleaningBinding
-
     private lateinit var displayedTag: String
+    private val model: TranslationViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +49,15 @@ class DbCleaningFragment : Fragment(), OnItemSelectedListener {
 
         /* According to spinner first selection, display corresponding fragment. */
         displayFragmentOfTag(spinner.selectedItem.toString())
+
+        /* When clicked, removes the selected word from the database. */
+        binding.deleteButton.setOnClickListener {
+            if (model.isDictionarySelected() && displayedTag == DICT_TAG)
+                model.deleteDictionary(model.selectedDictionary.value!!)
+
+            if (model.isWordSelected() && displayedTag == WORD_TAG)
+                model.deleteWord(model.selectedWord.value!!)
+        }
     }
 
     private fun displayFragmentOfTag(tag: String) {
@@ -80,6 +87,9 @@ class DbCleaningFragment : Fragment(), OnItemSelectedListener {
     }
 
     companion object {
+        private val DICT_TAG = "Dictionaries"
+        private val WORD_TAG = "Words"
+
         @JvmStatic
         fun newInstance() =
             DbCleaningFragment().apply {
@@ -100,6 +110,8 @@ class DbCleaningFragment : Fragment(), OnItemSelectedListener {
             Log.d("logLENGUA", "already displayed")
         }
 
+        /* Reset selected data on list change. */
+        model.resetSelected()
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
