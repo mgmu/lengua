@@ -132,10 +132,6 @@ class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
 
     companion object {
         private val TAG = "logSAVESEARCH"
-        private val WORD_TO_SAVE_KEY = "key1"
-        private val SRC_LANGUAGE_KEY = "key2"
-        private val DEST_LANGUAGE_KEY = "key3"
-        private val DICTIONARY_NAME_KEY = "key4"
         private val URI_KEY = "URI_KEY"
 
         @JvmStatic
