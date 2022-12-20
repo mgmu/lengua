@@ -26,12 +26,12 @@ class TranslationViewModel(app: Application): AndroidViewModel(app) {
     /**
      * Selected dictionary
      */
-    var selectedDictionary = MutableLiveData<Dictionary>()
+    var selectedDictionary = MutableLiveData<Dictionary?>()
 
     /**
      * Selected word
      */
-    var selectedWord = MutableLiveData<Word>()
+    var selectedWord = MutableLiveData<Word?>()
 
     /**
      * Keeps track of the word insertion result
@@ -59,11 +59,6 @@ class TranslationViewModel(app: Application): AndroidViewModel(app) {
     fun isDictionarySelected(): Boolean = selectedDictionary.value != null
 
     /**
-     * Returns true if a word is selected.
-     */
-    fun isWordSelected(): Boolean = selectedWord.value != null
-
-    /**
      * Inserts a word in the database
      * @return the id of the inserted word or -1 if insertion failed
      */
@@ -88,4 +83,20 @@ class TranslationViewModel(app: Application): AndroidViewModel(app) {
     var wordToSave: String? = null
     var srcLanguage: String? = null
     var destLanguage: String? = null
+
+    fun resetSelected() {
+        selectedWord.value = null
+        selectedDictionary.value = null
+    }
+
+    fun deleteDictionary(dictionary: Dictionary) {
+        thread { dao.deleteDictionary(dictionary) }
+    }
+
+    /* Returns true if the there is a selected word */
+    fun isWordSelected() = selectedWord.value != null
+
+    fun deleteWord(word: Word) {
+        thread { dao.deleteWord(word) }
+    }
 }

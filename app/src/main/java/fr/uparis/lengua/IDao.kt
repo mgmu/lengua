@@ -2,6 +2,7 @@ package fr.uparis.lengua
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -27,4 +28,10 @@ interface IDao {
 
     @Query("SELECT * FROM Word WHERE word LIKE :word||'%'")
     fun selectWord(word:String): LiveData<Word>
+
+    @Delete
+    fun deleteDictionary(dictionary: Dictionary): Int
+
+    @Delete
+    fun deleteWord(word: Word): Int
 }
