@@ -4,4 +4,23 @@
     <string name="search_word">Type a word or a sentence</string>
     <string name="search_word_button_text">Search</string>
     <string name="other_search_word_button_text">Other</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="save">Save</string>
+
+    <string-array name="words_quantity">
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="lessons_frequency">
+        <item>Every 15 minutes</item>
+        <item>Every 30 minutes</item>
+        <item>Every hour</item>
+        <item>Everyday</item>
+    </string-array>
 </resources>

@@ -20,17 +20,18 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         /* Page names */
-        val names = listOf("Research", "Save", "Cleaning")
+        val names = listOf("Research", "Save", "Cleaning", "Settings")
 
         /* Fragments creation */
         val saveSearchFragment = SaveSearchFragment.newInstance()
         val translationResearchFragment = TranslationResearchFragment.newInstance()
         val dbCleaningFragment = DbCleaningFragment.newInstance()
+        val settingsFragment = SettingsFragment.newInstance()
 
         /* Pager Adapter */
         val pagerAdapter = ScreenSlidePagerAdapter(
             this,
-            mutableListOf(translationResearchFragment, saveSearchFragment, dbCleaningFragment),
+            mutableListOf(translationResearchFragment, saveSearchFragment, dbCleaningFragment,settingsFragment),
             model
         )
 
