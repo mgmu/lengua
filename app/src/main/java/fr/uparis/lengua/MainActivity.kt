@@ -1,5 +1,6 @@
 package fr.uparis.lengua
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -38,6 +39,10 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             tab.text = names[position]
         }.attach()
+
+        /* Start learning service 2 */
+        val learningIntent = Intent(this, LearningService2::class.java)
+        applicationContext.startService(learningIntent)
     }
 
     /* Associates a fragment to a page of the ViewPager */
