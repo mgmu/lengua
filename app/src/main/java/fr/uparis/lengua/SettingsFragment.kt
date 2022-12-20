@@ -12,11 +12,17 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+<<<<<<< HEAD
 import android.widget.Toast
 import fr.uparis.lengua.databinding.FragmentDbCleaningBinding
 import fr.uparis.lengua.databinding.FragmentSettingsBinding
 import fr.uparis.lengua.databinding.FragmentTranslationResearchBinding
 import kotlin.math.min
+=======
+import fr.uparis.lengua.databinding.FragmentDbCleaningBinding
+import fr.uparis.lengua.databinding.FragmentSettingsBinding
+import fr.uparis.lengua.databinding.FragmentTranslationResearchBinding
+>>>>>>> 642b571 (to be continued.)
 
 
 /**
@@ -50,7 +56,6 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
