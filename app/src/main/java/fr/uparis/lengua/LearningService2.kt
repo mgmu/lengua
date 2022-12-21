@@ -1,6 +1,10 @@
 package fr.uparis.lengua
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.lifecycle.LifecycleService
@@ -14,6 +18,16 @@ class LearningService2 : LifecycleService() { /* for observers */
     private val dao by lazy {(application as TranslationApplication).database.iDao()}
     private lateinit var allWordsInDB: LiveData<List<Word>> /* All the words in the DB. */
     private var notificationsDisplayed = false /* Indicates if the notification has been displayed. */
+
+    private val alarmManager by lazy {
+        getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    }
+
+    private val pendingFlag =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            PendingIntent.FLAG_IMMUTABLE
+        else
+            PendingIntent.FLAG_UPDATE_CURRENT
 
     override fun onCreate() {
         super.onCreate()
@@ -31,6 +45,12 @@ class LearningService2 : LifecycleService() { /* for observers */
             if (!notificationsDisplayed)
                 displayNotifications()
         }
+
+        /* Wake up service in DELAY milliseconds. */
+        val triggerTime = (System.currentTimeMillis() + delayBetweenWakesInMs).toLong()
+        val alarmIntent = Intent(this, LearningService2::class.java)
+        val pending = PendingIntent.getService(this,1, alarmIntent, pendingFlag)
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pending)
 
         return START_NOT_STICKY
     }
