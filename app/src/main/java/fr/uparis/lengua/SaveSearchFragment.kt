@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import fr.uparis.lengua.databinding.FragmentSaveSearchBinding
 
-class SaveSearchFragment : Fragment(R.layout.fragment_save_search) {
+class SaveSearchFragment : Fragment() {
     private lateinit var binding: FragmentSaveSearchBinding
     private val model: TranslationViewModel by activityViewModels()
 
