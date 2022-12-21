@@ -21,7 +21,7 @@ import fr.uparis.lengua.databinding.FragmentTranslationResearchBinding
  * This fragment represents the setting page
  */
 class SettingsFragment : Fragment() {
-    private var binding: FragmentSettingsBinding by lazy {  }
+    private lateinit var binding: FragmentSettingsBinding
 
     private val REMAINING_NOTIFICATIONS = "number of notifications to send for next course"
     private val HOUR_ = "hour"
@@ -48,17 +48,18 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         sharedPref = (context?.getSharedPreferences("sharedPref", Context.MODE_PRIVATE)) as SharedPreferences
 
-        binding = FragmentTranslationRe:.bind(v!!)
+        binding = FragmentSettingsBinding.bind(requireView())
         val freqSpinner: Spinner = binding.chooseLessonFrequency
         ArrayAdapter.createFromResource(
             requireContext(),
-            R.array.db_lists_array,
+            R.array.lessons_frequency,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             // layout of dropdown
@@ -70,22 +71,24 @@ class SettingsFragment : Fragment() {
         val nbOfWordsSpinner: Spinner = binding.chooseWordsQuantity
         ArrayAdapter.createFromResource(
             requireContext(),
-            R.array.db_lists_array,
+            R.array.words_quantity,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             // layout of dropdown
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            freqSpinner.adapter = adapter
-            freqSpinner.setSelection(0)
+            nbOfWordsSpinner.adapter = adapter
+            nbOfWordsSpinner.setSelection(0)
         }
         binding.saveBtn.setOnClickListener(
             {
 
-                val chosenFrequence = freqSpinner.selectedItem.toString()
-                Log.d("logLENGUA", chosenFrequence)
+                val chosenFrequence = getFrequency(freqSpinner.selectedItem.toString())
+                val nbOfWords = nbOfWordsSpinner.selectedItem.toString()
+                Log.d("logLENGUA", " fequencey : $chosenFrequence")
+                Log.d("logLENGUA", "nbOfWords : $nbOfWords")
 
                 sharedPref.edit().putLong(RECAP_FREQUENCY_,
-                    getFrequency(chosenFrequence)).apply()
+                    chosenFrequence).apply()
 
                 sharedPref.edit().putInt(REMAINING_NOTIFICATIONS,
                     Integer.valueOf(nbOfWordsSpinner.selectedItem.toString())).apply()
