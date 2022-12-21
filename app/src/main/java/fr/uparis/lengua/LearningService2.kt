@@ -23,21 +23,13 @@ class LearningService2 : LifecycleService() { /* for observers */
     private var notificationsToDisplay:Int = 0 /* Number of notifications to display each batch. */
     private val dao by lazy {(application as TranslationApplication).database.iDao()}
     private lateinit var allWordsInDB: LiveData<List<Word>> /* All the words in the DB. */
-<<<<<<< HEAD
     private var notifications: MutableList<Notification>? = null
     private var wordsNotified: MutableList<Word>? = null
     private val _limitSwipe = 3
-=======
-    private var notificationsDisplayed = false /* Indicates if the notification has been displayed. */
-    private val CHANNEL_ID = "Lengua Notification Channel ID"
-    private val CHANNEL_NAME = "Lengua Notification Channel"
-    private val CHANNEL_DESCRIPTION = "Lengua Notification Channel Description"
->>>>>>> 96dd565 (Implemented display of notifications)
 
     private val notificationManager by lazy {
         getSystemService(NOTIFICATION_SERVICE) as NotificationManager
     }
-<<<<<<< HEAD
 
     private val alarmManager by lazy {
         getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -53,8 +45,6 @@ class LearningService2 : LifecycleService() { /* for observers */
         applicationContext
             .getSharedPreferences(getString(R.string.shared_preferences), Context.MODE_PRIVATE)
     }
-=======
->>>>>>> 96dd565 (Implemented display of notifications)
 
     override fun onCreate() {
         super.onCreate()
@@ -70,19 +60,11 @@ class LearningService2 : LifecycleService() { /* for observers */
      * */
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-<<<<<<< HEAD
             val name = getString(R.string.channel_name)
             val id = getString(R.string.channel_id)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(id, name, importance)
                 .apply { description = getString(R.string.channel_description) }
-=======
-            val channel = NotificationChannel(
-                CHANNEL_ID,
-                CHANNEL_NAME, // Nom du channel
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply { description = CHANNEL_DESCRIPTION }
->>>>>>> 96dd565 (Implemented display of notifications)
             notificationManager.createNotificationChannel(channel)
         }
     }
@@ -148,7 +130,6 @@ class LearningService2 : LifecycleService() { /* for observers */
         val alarmIntent = Intent(this, LearningService2::class.java)
         val pending = PendingIntent.getService(this,1, alarmIntent, pendingFlag)
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pending)
-
         return START_NOT_STICKY
     }
 
@@ -201,7 +182,7 @@ class LearningService2 : LifecycleService() { /* for observers */
         Log.d(_tag, "LearningService2::Created notification for [$word] of id [$id]")
         return NotificationCompat.Builder(this, chanId)
             .setContentTitle(word.word)
-            .setContentText("${word.sourceLanguage} -> ${word.destinationLanguage}")
+            .setContentText("$word.sourceLanguage -> $word.destinationLanguage")
             .setSmallIcon(R.drawable.github)
             .setDeleteIntent(pendingSwipeIntent)
             .build()
