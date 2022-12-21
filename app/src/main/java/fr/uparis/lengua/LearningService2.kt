@@ -123,6 +123,12 @@ class LearningService2 : LifecycleService() { /* for observers */
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pending)
         }
 
+        /* Wake up service in DELAY milliseconds. */
+        val triggerTime = (System.currentTimeMillis() + delayBetweenWakesInMs)
+        val alarmIntent = Intent(this, LearningService2::class.java)
+        val pending = PendingIntent.getService(this,1, alarmIntent, pendingFlag)
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pending)
+
         return START_NOT_STICKY
     }
 
