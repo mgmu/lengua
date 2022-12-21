@@ -52,7 +52,7 @@ class LearningService2 : LifecycleService() { /* for observers */
         allWordsInDB = dao.loadAllWords()
         createNotificationChannel()
         notificationsToDisplay = sharedPreferences.getInt(R.string.words_per_lesson.toString(),10)
-        Log.d(_tag,"Notification to display : ${notificationsToDisplay}")
+        Log.d(_tag,"Notification to display : $notificationsToDisplay")
     }
 
     /**
