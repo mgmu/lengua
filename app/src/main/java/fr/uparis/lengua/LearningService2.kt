@@ -46,6 +46,16 @@ class LearningService2 : LifecycleService() { /* for observers */
             .getSharedPreferences(getString(R.string.shared_preferences), Context.MODE_PRIVATE)
     }
 
+    private val alarmManager by lazy {
+        getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    }
+
+    private val pendingFlag =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            PendingIntent.FLAG_IMMUTABLE
+        else
+            PendingIntent.FLAG_UPDATE_CURRENT
+
     override fun onCreate() {
         super.onCreate()
         Log.d(_tag, "onCreate()")
@@ -124,6 +134,12 @@ class LearningService2 : LifecycleService() { /* for observers */
             val pending = PendingIntent.getService(this, 1, alarmIntent, pendingFlag)
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pending)
         }
+
+        /* Wake up service in DELAY milliseconds. */
+        val triggerTime = (System.currentTimeMillis() + delayBetweenWakesInMs).toLong()
+        val alarmIntent = Intent(this, LearningService2::class.java)
+        val pending = PendingIntent.getService(this,1, alarmIntent, pendingFlag)
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pending)
 
         return START_NOT_STICKY
     }
