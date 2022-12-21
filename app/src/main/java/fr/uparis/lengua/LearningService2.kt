@@ -9,6 +9,7 @@ import android.app.NotificationManager
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
+import android.preference.PreferenceManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
@@ -17,14 +18,15 @@ import androidx.lifecycle.LiveData
 class LearningService2 : LifecycleService() { /* for observers */
     private val TAG = "LOGLENGUASERVICE2"
     private var hasToStop = false /* Indicates if this service has to stop. */
-    private var delayBetweenWakesInMs = 60000 /* Time between display of notifications = 1 minute. */
+    private var delayBetweenWakesInMs = 15000 /* Time between display of notifications = 15 seconds. */
     private var notificationsToDisplay = 10 /* Number of notifications to display each batch. */
     private val dao by lazy {(application as TranslationApplication).database.iDao()}
     private lateinit var allWordsInDB: LiveData<List<Word>> /* All the words in the DB. */
-    private var notificationsDisplayed = false /* Indicates if the notification has been displayed. */
     private val CHANNEL_ID = "Lengua Notification Channel ID"
     private val CHANNEL_NAME = "Lengua Notification Channel"
     private val CHANNEL_DESCRIPTION = "Lengua Notification Channel Description"
+    private val SHARED_PREFERENCES = "shared preferences"
+    private val LAST_DISPLAY_TIME_KEY = "LAST_DISPLAY_TIME"
 
     private val notificationManager by lazy {
         getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -39,6 +41,10 @@ class LearningService2 : LifecycleService() { /* for observers */
             PendingIntent.FLAG_IMMUTABLE
         else
             PendingIntent.FLAG_UPDATE_CURRENT
+
+    private val sharedPreferences by lazy {
+        applicationContext.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -66,19 +72,32 @@ class LearningService2 : LifecycleService() { /* for observers */
 
         Log.d(TAG, "onStartCommand()")
 
-        /* Load NOTIFICATIONSTODISPLAY*/
         allWordsInDB.observe(this) {
-            if (!notificationsDisplayed)
-                displayNotifications()
+            val lastDisplayTime = sharedPreferences.getLong(LAST_DISPLAY_TIME_KEY, -1)
+            if (lastDisplayTime == -1L
+                || lastDisplayTime + delayBetweenWakesInMs <= System.currentTimeMillis()) {
+                    Log.d(TAG, "Never displayed notifications before or triggered by other service")
+                    displayNotifications()
+                    updateLastDisplayTime(System.currentTimeMillis())
+            }
         }
 
-        /* Wake up service in DELAY milliseconds. */
-        val triggerTime = (System.currentTimeMillis() + delayBetweenWakesInMs).toLong()
-        val alarmIntent = Intent(this, LearningService2::class.java)
-        val pending = PendingIntent.getService(this,1, alarmIntent, pendingFlag)
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pending)
+        /* Wake up service in DELAY milliseconds if it does not have to stop. */
+        if (!hasToStop) {
+            val triggerTime = (System.currentTimeMillis() + delayBetweenWakesInMs).toLong()
+            val alarmIntent = Intent(this, LearningService2::class.java)
+            val pending = PendingIntent.getService(this, 1, alarmIntent, pendingFlag)
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pending)
+        }
 
         return START_NOT_STICKY
+    }
+
+    private fun updateLastDisplayTime(time: Long) {
+        with(sharedPreferences.edit()) {
+            putLong(LAST_DISPLAY_TIME_KEY, time)
+            apply()
+        }
     }
 
     /**
@@ -88,7 +107,6 @@ class LearningService2 : LifecycleService() { /* for observers */
      * */
     private fun displayNotifications() {
         Log.d(TAG, "displayNotifications()")
-        notificationsDisplayed = true
         val words = drawRandomWords() // Draw at most notificationsToDisplay words from loaded words
         val notifications = mutableListOf<Notification>() // Will hold the notifications with words
         for (word in words)
