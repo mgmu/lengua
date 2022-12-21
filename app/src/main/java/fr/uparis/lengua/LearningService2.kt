@@ -1,11 +1,8 @@
 package fr.uparis.lengua
 
-<<<<<<< HEAD
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
-=======
->>>>>>> 56a79da8b51e8c13e7f46c58f7bcb93d58553333
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
