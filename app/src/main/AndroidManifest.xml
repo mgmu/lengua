@@ -51,6 +51,10 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <receiver
+            android:name=".NotificationDismissReceiver"
+            android:exported="true"/>
     </application>
 
 </manifest>
