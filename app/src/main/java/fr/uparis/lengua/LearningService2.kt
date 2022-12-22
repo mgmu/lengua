@@ -8,6 +8,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.os.IBinder
 import android.preference.PreferenceManager
 import android.util.Log
@@ -22,11 +23,6 @@ class LearningService2 : LifecycleService() { /* for observers */
     private var notificationsToDisplay = 10 /* Number of notifications to display each batch. */
     private val dao by lazy {(application as TranslationApplication).database.iDao()}
     private lateinit var allWordsInDB: LiveData<List<Word>> /* All the words in the DB. */
-    private val CHANNEL_ID = "Lengua Notification Channel ID"
-    private val CHANNEL_NAME = "Lengua Notification Channel"
-    private val CHANNEL_DESCRIPTION = "Lengua Notification Channel Description"
-    private val SHARED_PREFERENCES = "shared preferences"
-    private val LAST_DISPLAY_TIME_KEY = "LAST_DISPLAY_TIME"
 
     private val notificationManager by lazy {
         getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -43,7 +39,8 @@ class LearningService2 : LifecycleService() { /* for observers */
             PendingIntent.FLAG_UPDATE_CURRENT
 
     private val sharedPreferences by lazy {
-        applicationContext.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        applicationContext
+            .getSharedPreferences(getString(R.string.shared_preferences), Context.MODE_PRIVATE)
     }
 
     override fun onCreate() {
@@ -58,11 +55,11 @@ class LearningService2 : LifecycleService() { /* for observers */
      * */
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                CHANNEL_ID,
-                CHANNEL_NAME, // Nom du channel
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply { description = CHANNEL_DESCRIPTION }
+            val name = getString(R.string.channel_name)
+            val id = getString(R.string.channel_id)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(id, name, importance)
+                .apply { description = getString(R.string.channel_description) }
             notificationManager.createNotificationChannel(channel)
         }
     }
@@ -73,7 +70,8 @@ class LearningService2 : LifecycleService() { /* for observers */
         Log.d(TAG, "onStartCommand()")
 
         allWordsInDB.observe(this) {
-            val lastDisplayTime = sharedPreferences.getLong(LAST_DISPLAY_TIME_KEY, -1)
+            val lastDisplayTime =
+                sharedPreferences.getLong(getString(R.string.last_display_time_key), -1)
             if (lastDisplayTime == -1L
                 || lastDisplayTime + delayBetweenWakesInMs <= System.currentTimeMillis()) {
                     Log.d(TAG, "Never displayed notifications before or triggered by other service")
@@ -84,7 +82,7 @@ class LearningService2 : LifecycleService() { /* for observers */
 
         /* Wake up service in DELAY milliseconds if it does not have to stop. */
         if (!hasToStop) {
-            val triggerTime = (System.currentTimeMillis() + delayBetweenWakesInMs).toLong()
+            val triggerTime = (System.currentTimeMillis() + delayBetweenWakesInMs)
             val alarmIntent = Intent(this, LearningService2::class.java)
             val pending = PendingIntent.getService(this, 1, alarmIntent, pendingFlag)
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pending)
@@ -95,7 +93,7 @@ class LearningService2 : LifecycleService() { /* for observers */
 
     private fun updateLastDisplayTime(time: Long) {
         with(sharedPreferences.edit()) {
-            putLong(LAST_DISPLAY_TIME_KEY, time)
+            putLong(getString(R.string.last_display_time_key), time)
             apply()
         }
     }
@@ -109,9 +107,9 @@ class LearningService2 : LifecycleService() { /* for observers */
         Log.d(TAG, "displayNotifications()")
         val words = drawRandomWords() // Draw at most notificationsToDisplay words from loaded words
         val notifications = mutableListOf<Notification>() // Will hold the notifications with words
-        for (word in words)
-            notifications.add(createNotificationFromWord(word))
-        for (id in 0 until notifications.size) {
+        for (id in words.indices)
+            notifications.add(createNotificationFromWord(words[id], id))
+        for (id in notifications.indices) {
             notificationManager.notify(id, notifications[id]) // Display each notification
         }
     }
@@ -119,11 +117,26 @@ class LearningService2 : LifecycleService() { /* for observers */
     /**
      * Creates a Notification from the word and returns it.
      * */
-    private fun createNotificationFromWord(word: Word): Notification {
-        return NotificationCompat.Builder(this, CHANNEL_ID)
+    private fun createNotificationFromWord(word: Word, id: Int): Notification {
+        // the intent to send when the notification is swiped
+        val swipeIntent = Intent(this, NotificationDismissReceiver::class.java)
+        val swipeIntentExtras: Bundle = Bundle().apply {
+            putString(getString(R.string.word_word_key), word.word)
+            putString(getString(R.string.word_src_language_key), word.sourceLanguage)
+            putString(getString(R.string.word_dest_language_key), word.sourceLanguage)
+            putString(getString(R.string.word_link_key), word.link)
+            putInt(getString(R.string.notification_id_key), id)
+        }
+        swipeIntent.putExtras(swipeIntentExtras)
+        val pendingSwipeIntent =
+            PendingIntent.getBroadcast(this, 1, swipeIntent, pendingFlag)
+
+        val id = getString(R.string.channel_id)
+        return NotificationCompat.Builder(this, id)
             .setContentTitle(word.word)
             .setContentText("${word.sourceLanguage} -> ${word.destinationLanguage}")
             .setSmallIcon(R.drawable.github)
+            .setDeleteIntent(pendingSwipeIntent)
             .build()
     }
 

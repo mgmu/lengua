@@ -6,21 +6,11 @@ import android.content.Intent
 import android.util.Log
 
 /**
- * This broadcastreceiver catches the dismiss notification event.
- */
+ * This class is used to receive intents sent by swiping a notification
+ * */
 class NotificationDismissReceiver : BroadcastReceiver() {
 
-    private lateinit var dao:IDao;
-    /**
-     * This method updates the apparition frequence of the skipped word.
-     * TODO UPDATE THE WORD FREQUENCY IN THE DATABASE FIND A WAY TO GET DAO
-     */
     override fun onReceive(context: Context, intent: Intent) {
-        val word = intent.extras!!.getString("word","incorrect word")
-        Log.d("logLENGUA","Dissmissed notification : $word")
-    }
-
-    private fun updateFrequecy(word:Word){
-        dao.updateWord(word)
+        Log.d("LOG_LENGUA", "NotificationDismissReceiver::onReceive()")
     }
 }
