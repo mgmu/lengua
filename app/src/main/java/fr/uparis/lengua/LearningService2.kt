@@ -23,9 +23,12 @@ class LearningService2 : LifecycleService() { /* for observers */
     private var notificationsToDisplay:Int = 0 /* Number of notifications to display each batch. */
     private val dao by lazy {(application as TranslationApplication).database.iDao()}
     private lateinit var allWordsInDB: LiveData<List<Word>> /* All the words in the DB. */
+<<<<<<< HEAD
     private var notifications: MutableList<Notification>? = null
     private var wordsNotified: MutableList<Word>? = null
     private val _limitSwipe = 3
+=======
+>>>>>>> eebcb37 (added content to provide to BR on notification dismiss)
 
     private val notificationManager by lazy {
         getSystemService(NOTIFICATION_SERVICE) as NotificationManager
