@@ -19,11 +19,7 @@
         <service
             android:name=".LearningService2"
             android:enabled="true"
-<<<<<<< HEAD
             android:exported="false" />
-=======
-            android:exported="false"/>
->>>>>>> a47cf34 (Implemented word list generation)
 
         <activity
             android:name=".SaveSearchActivity"
