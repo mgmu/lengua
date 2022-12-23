@@ -70,6 +70,7 @@ class LearningService2 : LifecycleService() { /* for observers */
         Log.d(TAG, "onStartCommand()")
 
         allWordsInDB.observe(this) {
+            Log.d("LOGLENGUASERVICE2", "CHANGE OF WORDS IN DB")
             val lastDisplayTime =
                 sharedPreferences.getLong(getString(R.string.last_display_time_key), -1)
             if (lastDisplayTime == -1L
@@ -109,18 +110,15 @@ class LearningService2 : LifecycleService() { /* for observers */
         val notifications = mutableListOf<Notification>() // Will hold the notifications with words
         for (id in words.indices)
             notifications.add(createNotificationFromWord(words[id], id))
-        for (id in notifications.indices) {
+        for (id in notifications.indices)
             notificationManager.notify(id, notifications[id]) // Display each notification
-        }
     }
 
-    /**
-     * Creates a Notification from the word and returns it.
-     * */
-    private fun createNotificationFromWord(word: Word, id: Int): Notification {
+    private fun createSwipeIntent(word: Word, id: Int): Intent {
+
         // the intent to send when the notification is swiped
         val swipeIntent = Intent(this, NotificationDismissReceiver::class.java)
-        val swipeIntentExtras: Bundle = Bundle().apply {
+        val swipeIntentExtras = Bundle().apply {
             putString(getString(R.string.word_word_key), word.word)
             putString(getString(R.string.word_src_language_key), word.sourceLanguage)
             putString(getString(R.string.word_dest_language_key), word.sourceLanguage)
@@ -128,10 +126,20 @@ class LearningService2 : LifecycleService() { /* for observers */
             putInt(getString(R.string.notification_id_key), id)
         }
         swipeIntent.putExtras(swipeIntentExtras)
+        Log.d(TAG, "Created swipe intent for [$word] of id [$id]")
+        return swipeIntent
+    }
+
+    /**
+     * Creates a Notification with the given word and returns it.
+     * */
+    private fun createNotificationFromWord(word: Word, id: Int): Notification {
+        val swipeIntent = createSwipeIntent(word, id)
         val pendingSwipeIntent =
             PendingIntent.getBroadcast(this, 1, swipeIntent, pendingFlag)
 
         val id = getString(R.string.channel_id)
+        Log.d(TAG, "Created notification for [$word] of id [$id]")
         return NotificationCompat.Builder(this, id)
             .setContentTitle(word.word)
             .setContentText("${word.sourceLanguage} -> ${word.destinationLanguage}")
@@ -157,7 +165,6 @@ class LearningService2 : LifecycleService() { /* for observers */
      * */
     private fun drawRandomWords(): List<Word> {
         if (allWordsInDB.value != null) { // If words have not been retrieved yet, do nothing
-
             var list = mutableListOf<Word>()
 
             if (notificationsToDisplay > allWordsInDB.value!!.size) // Adapt to number of elements in DB
@@ -166,7 +173,7 @@ class LearningService2 : LifecycleService() { /* for observers */
             var missing = notificationsToDisplay
             while (list.size != notificationsToDisplay) {
                 for (i in 0 until missing) // add missing random words
-                    list.add(allWordsInDB.value!![(0 until notificationsToDisplay).random()])
+                    list.add(allWordsInDB.value!![(0 until allWordsInDB.value!!.size).random()])
                 list = list.distinct().toMutableList() // remove duplicates
                 missing = notificationsToDisplay - list.size // update missing
             }
