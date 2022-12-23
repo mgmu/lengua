@@ -136,7 +136,7 @@ class LearningService2 : LifecycleService() { /* for observers */
     private fun createNotificationFromWord(word: Word, id: Int): Notification {
         val swipeIntent = createSwipeIntent(word, id)
         val pendingSwipeIntent =
-            PendingIntent.getBroadcast(this, 1, swipeIntent, pendingFlag)
+            PendingIntent.getBroadcast(this, id, swipeIntent, pendingFlag)
 
         val id = getString(R.string.channel_id)
         Log.d(TAG, "Created notification for [$word] of id [$id]")
