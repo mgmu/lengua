@@ -17,7 +17,7 @@ import androidx.lifecycle.LiveData
 import kotlin.concurrent.thread
 
 class LearningService2 : LifecycleService() { /* for observers */
-    private val TAG = "LOGLENGUASERVICE2"
+    private val _tag = "Log of learning service"
     private var hasToStop = false /* Indicates if this service has to stop. */
     private var delayBetweenWakesInMs = 20000 /* Time between display of notifications = 20 seconds. */
     private var notificationsToDisplay = 10 /* Number of notifications to display each batch. */
@@ -25,7 +25,7 @@ class LearningService2 : LifecycleService() { /* for observers */
     private lateinit var allWordsInDB: LiveData<List<Word>> /* All the words in the DB. */
     private var notifications: MutableList<Notification>? = null
     private var wordsNotified: MutableList<Word>? = null
-    private val LIMIT_SWIPE = 3
+    private val _limitSwipe = 3
 
     private val notificationManager by lazy {
         getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -48,7 +48,7 @@ class LearningService2 : LifecycleService() { /* for observers */
 
     override fun onCreate() {
         super.onCreate()
-        Log.d(TAG, "onCreate()")
+        Log.d(_tag, "onCreate()")
         allWordsInDB = dao.loadAllWords()
         createNotificationChannel()
     }
@@ -70,46 +70,46 @@ class LearningService2 : LifecycleService() { /* for observers */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
-        Log.d("LOGLENGUASERVICE2", "LearningService2::onStartCommand()")
+        Log.d(_tag, "LearningService2::onStartCommand()")
 
         // Update word in db and displayed notification
         if (intent != null && intent.action == "update" && allWordsInDB.value != null) {
-            Log.d("LOGLENGUASERVICE2", "UPDATE ACTION")
+            Log.d(_tag, "UPDATE ACTION")
             if (intent.extras != null && wordsNotified != null && notifications != null) {
                 val notificationID = intent.extras!!.getInt(getString(R.string.notification_id_key))
-                Log.d("LOGLENGUASERVICE2", "recovered notification")
+                Log.d(_tag, "recovered notification")
                 val notifiedWord = wordsNotified!![notificationID]
-                Log.d("LOGLENGUASERVICE2", "recovered notifiedWord")
+                Log.d(_tag, "recovered notifiedWord")
                 var newWord = notifiedWord
-                while (wordsNotified!!.contains(newWord) || newWord.swiped >= LIMIT_SWIPE) {
-                    Log.d("LOGLENGUASERVICE2", "drawing random word")
+                while (wordsNotified!!.contains(newWord) || newWord.swiped >= _limitSwipe) {
+                    Log.d(_tag, "drawing random word")
                     newWord = allWordsInDB.value!![(allWordsInDB.value!!.indices).random()]
                 }
-                Log.d("LOGLENGUASERVICE2", "drawn new random word")
+                Log.d(_tag, "drawn new random word")
                 val newNotification = createNotificationFromWord(newWord, notificationID)
-                Log.d("LOGLENGUASERVICE2", "created new notification")
+                Log.d(_tag, "created new notification")
                 wordsNotified!![notificationID] = newWord
-                Log.d("LOGLENGUASERVICE2", "assigned new word in notified words")
+                Log.d(_tag, "assigned new word in notified words")
                 notifications!![notificationID] = newNotification
-                Log.d("LOGLENGUASERVICE2", "assigned new notification in displayed notifications")
+                Log.d(_tag, "assigned new notification in displayed notifications")
                 notificationManager.notify(notificationID, newNotification)
-                Log.d("LOGLENGUASERVICE2", "notified new notification")
+                Log.d(_tag, "notified new notification")
                 notifiedWord.swiped++
-                Log.d("LOGLENGUASERVICE2", "about to start thread for word update")
+                Log.d(_tag, "about to start thread for word update")
                 thread { dao.updateWord(notifiedWord) }
-                Log.d("LOGLENGUASERVICE2", "started thread for word update")
-                Log.d("LOGLENGUASERVICE2", "end of UPDATE ACTION")
+                Log.d(_tag, "started thread for word update")
+                Log.d(_tag, "end of UPDATE ACTION")
             }
             return START_NOT_STICKY
         }
 
         allWordsInDB.observe(this) {
-            Log.d("LOGLENGUASERVICE2", "LearningService2::CHANGE OF WORDS IN DB")
+            Log.d(_tag, "LearningService2::CHANGE OF WORDS IN DB")
             val lastDisplayTime =
                 sharedPreferences.getLong(getString(R.string.last_display_time_key), -1)
             if (lastDisplayTime == -1L
                 || lastDisplayTime + delayBetweenWakesInMs <= System.currentTimeMillis()) {
-                    Log.d(TAG, "LearningService2::Never displayed notifications before or triggered by other service")
+                    Log.d(_tag, "LearningService2::Never displayed notifications before or triggered by other service")
                     displayNotifications()
                     updateLastDisplayTime(System.currentTimeMillis())
             }
@@ -139,7 +139,7 @@ class LearningService2 : LifecycleService() { /* for observers */
      * manager.
      * */
     private fun displayNotifications() {
-        Log.d(TAG, "LearningService2::displayNotifications()")
+        Log.d(_tag, "LearningService2::displayNotifications()")
         wordsNotified = drawRandomWords() // Draw at most notificationsToDisplay words from loaded words
 
         if (notifications == null) // first start of service after a destruction
@@ -159,7 +159,7 @@ class LearningService2 : LifecycleService() { /* for observers */
         val swipeIntent = Intent(this, NotificationDismissReceiver::class.java)
         val swipeIntentExtras = Bundle().apply { putInt(getString(R.string.notification_id_key), id) }
         swipeIntent.putExtras(swipeIntentExtras)
-        Log.d(TAG, "LearningService2::Created swipe intent for id [$id]")
+        Log.d(_tag, "LearningService2::Created swipe intent for id [$id]")
         return swipeIntent
     }
 
@@ -171,9 +171,9 @@ class LearningService2 : LifecycleService() { /* for observers */
         val pendingSwipeIntent =
             PendingIntent.getBroadcast(this, id, swipeIntent, pendingFlag)
 
-        val id = getString(R.string.channel_id)
-        Log.d(TAG, "LearningService2::Created notification for [$word] of id [$id]")
-        return NotificationCompat.Builder(this, id)
+        val chanId = getString(R.string.channel_id)
+        Log.d(_tag, "LearningService2::Created notification for [$word] of id [$id]")
+        return NotificationCompat.Builder(this, chanId)
             .setContentTitle(word.word)
             .setContentText("${word.sourceLanguage} -> ${word.destinationLanguage}")
             .setSmallIcon(R.drawable.github)
@@ -183,12 +183,12 @@ class LearningService2 : LifecycleService() { /* for observers */
 
     override fun onBind(intent: Intent): IBinder {
         super.onBind(intent)
-        Log.d(TAG, "LearningService2::onBind()")
+        Log.d(_tag, "LearningService2::onBind()")
         TODO("Return the communication channel to the service.")
     }
 
     override fun onDestroy() {
-        Log.d(TAG, "LearningService2::onDestroy()")
+        Log.d(_tag, "LearningService2::onDestroy()")
         super.onDestroy()
     }
 
