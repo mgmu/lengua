@@ -99,7 +99,6 @@ class LearningService2 : LifecycleService() { /* for observers */
                 thread { dao.updateWord(notifiedWord) }
                 Log.d(_tag, "started thread for word update")
                 Log.d(_tag, "end of UPDATE ACTION")
-
             }
             return START_NOT_STICKY
         }
