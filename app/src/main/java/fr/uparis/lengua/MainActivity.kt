@@ -51,8 +51,8 @@ class MainActivity : AppCompatActivity() {
     /* Associates a fragment to a page of the ViewPager */
     class ScreenSlidePagerAdapter(
         fa: FragmentActivity,
-        var fragments: MutableList<Fragment>,
-        var model: TranslationViewModel): FragmentStateAdapter(fa) {
+        private var fragments: MutableList<Fragment>,
+        private var model: TranslationViewModel): FragmentStateAdapter(fa) {
 
         override fun getItemCount(): Int = fragments.size
 
