@@ -12,11 +12,13 @@ import android.util.Log
 class NotificationDismissReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d("LOGLENGUASERVICE2", "NotificationDismissReceiver::onReceive()")
+        Log.d("LOGLENGUASERVICE2", "NDR::onReceive()")
         if (intent.extras != null) { // launch update word service with given extras
-            val wordUpdateIntent = Intent(context, WordUpdateService::class.java)
+            Log.d("LOGLENGUASERVICE2", "NDR::intent.extras not null")
+            val wordUpdateIntent = Intent(context, LearningService2::class.java)
+                .apply { action = "update" }
             wordUpdateIntent.putExtras(intent.extras!!)
             context.startService(wordUpdateIntent)
-        }
+        } else Log.d("LOGLENGUASERVICE2", "NDR::intent.extras null")
     }
 }
