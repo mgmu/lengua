@@ -12,17 +12,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-<<<<<<< HEAD
 import android.widget.Toast
-import fr.uparis.lengua.databinding.FragmentDbCleaningBinding
 import fr.uparis.lengua.databinding.FragmentSettingsBinding
-import fr.uparis.lengua.databinding.FragmentTranslationResearchBinding
-import kotlin.math.min
-=======
-import fr.uparis.lengua.databinding.FragmentDbCleaningBinding
-import fr.uparis.lengua.databinding.FragmentSettingsBinding
-import fr.uparis.lengua.databinding.FragmentTranslationResearchBinding
->>>>>>> 642b571 (to be continued.)
 
 
 /**
@@ -44,7 +35,7 @@ class SettingsFragment : Fragment() {
     /**
      * Getting sharedprefrences to know how many notification we should send.
      */
-    private lateinit var sharedPref:SharedPreferences
+    private lateinit var sharedPref: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -60,8 +51,10 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        sharedPref = (context?.getSharedPreferences(R.string.shared_preferences.toString(),
-                      Context.MODE_PRIVATE)) as SharedPreferences
+        sharedPref = (context?.getSharedPreferences(
+            R.string.shared_preferences.toString(),
+            Context.MODE_PRIVATE
+        )) as SharedPreferences
 
         binding = FragmentSettingsBinding.bind(requireView())
 
@@ -104,16 +97,20 @@ class SettingsFragment : Fragment() {
                         "${sharedPref.getInt(R.string.words_per_lesson.toString(), -1)}"
                     )
                 } else {
-                    Toast.makeText(requireContext(),"You have to fill hours and minutes fields."
-                        ,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "You have to fill hours and minutes fields.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         )
     }
 
-    fun getFrequency(hours:Int, minutes:Int):Int{
+    fun getFrequency(hours: Int, minutes: Int): Int {
         return (hours * 3600 + minutes * 60) * 1000
     }
+
     companion object {
 
         @JvmStatic
