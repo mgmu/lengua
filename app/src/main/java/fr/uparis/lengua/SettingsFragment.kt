@@ -90,8 +90,9 @@ class SettingsFragment : Fragment() {
                 sharedPref.edit().putLong(RECAP_FREQUENCY_,
                     chosenFrequence).apply()
 
-                sharedPref.edit().putInt(REMAINING_NOTIFICATIONS,
+                sharedPref.edit().putInt(R.string.words_per_lesson.toString(),
                     Integer.valueOf(nbOfWordsSpinner.selectedItem.toString())).apply()
+                Log.d("settings","${sharedPref.getInt(R.string.words_per_lesson.toString(),-1)}")
             }
         )
     }

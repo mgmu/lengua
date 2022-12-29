@@ -32,5 +32,9 @@
     <string name="channel_name">Lengua channel</string>
     <string name="channel_description">Lengua notification channel for learning service</string>
     <string name="channel_id">fr.uparis.lengua.notification_id</string>
+    <string name="number_of_words_per_lesson">Number of words per lesson?</string>
+    <string name="lesson_time">Lesson time?</string>
+    <string name="lessons_frequency">Lessons frequency ?</string>
+    <string name="words_per_lesson">WORDS_PER_LESSON</string>
 
 </resources>
