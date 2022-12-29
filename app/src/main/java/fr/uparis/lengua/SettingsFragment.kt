@@ -12,9 +12,11 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import fr.uparis.lengua.databinding.FragmentDbCleaningBinding
 import fr.uparis.lengua.databinding.FragmentSettingsBinding
 import fr.uparis.lengua.databinding.FragmentTranslationResearchBinding
+import kotlin.math.min
 
 
 /**
@@ -53,20 +55,10 @@ class SettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        sharedPref = (context?.getSharedPreferences("sharedPref", Context.MODE_PRIVATE)) as SharedPreferences
+        sharedPref = (context?.getSharedPreferences(R.string.shared_preferences.toString(),
+                      Context.MODE_PRIVATE)) as SharedPreferences
 
         binding = FragmentSettingsBinding.bind(requireView())
-        val freqSpinner: Spinner = binding.chooseLessonFrequency
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.lessons_frequency,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // layout of dropdown
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            freqSpinner.adapter = adapter
-            freqSpinner.setSelection(0)
-        }
 
         val nbOfWordsSpinner: Spinner = binding.chooseWordsQuantity
         ArrayAdapter.createFromResource(
@@ -79,31 +71,43 @@ class SettingsFragment : Fragment() {
             nbOfWordsSpinner.adapter = adapter
             nbOfWordsSpinner.setSelection(0)
         }
+
         binding.saveBtn.setOnClickListener(
             {
 
-                val chosenFrequence = getFrequency(freqSpinner.selectedItem.toString())
-                val nbOfWords = nbOfWordsSpinner.selectedItem.toString()
-                Log.d("logLENGUA", " fequencey : $chosenFrequence")
-                Log.d("logLENGUA", "nbOfWords : $nbOfWords")
+                val hoursContent = binding.hours.text
+                val minutesContent = binding.minutes.text
+                if (!hoursContent.isEmpty() && !minutesContent.isEmpty()) {
+                    val hours = Integer.parseInt(hoursContent.toString())
+                    val minutes = Integer.parseInt(minutesContent.toString())
+                    val chosenFrequence = getFrequency(hours, minutes)
+                    val nbOfWords = nbOfWordsSpinner.selectedItem.toString()
+                    Log.d("logLENGUA", " fequencey : $chosenFrequence")
+                    Log.d("logLENGUA", "nbOfWords : $nbOfWords")
 
-                sharedPref.edit().putLong(RECAP_FREQUENCY_,
-                    chosenFrequence).apply()
+                    sharedPref.edit().putInt(
+                        R.string.recap_frequency.toString(),
+                        chosenFrequence
+                    ).apply()
 
-                sharedPref.edit().putInt(R.string.words_per_lesson.toString(),
-                    Integer.valueOf(nbOfWordsSpinner.selectedItem.toString())).apply()
-                Log.d("settings","${sharedPref.getInt(R.string.words_per_lesson.toString(),-1)}")
+                    sharedPref.edit().putInt(
+                        R.string.words_per_lesson.toString(),
+                        Integer.valueOf(nbOfWordsSpinner.selectedItem.toString())
+                    ).apply()
+                    Log.d(
+                        "logLENGUA",
+                        "${sharedPref.getInt(R.string.words_per_lesson.toString(), -1)}"
+                    )
+                } else {
+                    Toast.makeText(requireContext(),"You have to fill hours and minutes fields."
+                        ,Toast.LENGTH_SHORT).show()
+                }
             }
         )
     }
-    fun getFrequency(label:String):Long{
-       when(label){
-           "Every 15 minutes" -> return AlarmManager.INTERVAL_FIFTEEN_MINUTES
-           "Every 30 minutes" -> return AlarmManager.INTERVAL_HALF_HOUR
-           "Every hour" -> return AlarmManager.INTERVAL_HOUR
-           "Everyday" -> return AlarmManager.INTERVAL_DAY
-       }
-        return AlarmManager.INTERVAL_DAY /*Unreachable statement.*/
+
+    fun getFrequency(hours:Int, minutes:Int):Int{
+        return (hours * 3600 + minutes * 60) * 1000
     }
     companion object {
 

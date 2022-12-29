@@ -36,5 +36,8 @@
     <string name="lesson_time">Lesson time?</string>
     <string name="lessons_frequency">Lessons frequency ?</string>
     <string name="words_per_lesson">WORDS_PER_LESSON</string>
+    <string name="recap_frequency">RECAP_FREQUENCY</string>
+    <string name="hour_placeholder">Hours</string>
+    <string name="minutes_placeholder">Minutes</string>
 
 </resources>
