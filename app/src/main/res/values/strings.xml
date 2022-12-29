@@ -29,4 +29,8 @@
         <item>Every hour</item>
         <item>Everyday</item>
     </string-array>
+    <string name="number_of_words_per_lesson">Number of words per lesson?</string>
+    <string name="lesson_time">Lesson time?</string>
+    <string name="lessons_frequency">Lessons frequency ?</string>
+    <string name="words_per_lesson">WORDS_PER_LESSON</string>
 </resources>

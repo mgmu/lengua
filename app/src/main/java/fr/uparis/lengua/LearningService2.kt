@@ -20,7 +20,7 @@ class LearningService2 : LifecycleService() { /* for observers */
     private val _tag = "Log of learning service"
     private var hasToStop = false /* Indicates if this service has to stop. */
     private var delayBetweenWakesInMs = 20000 /* Time between display of notifications = 20 seconds. */
-    private var notificationsToDisplay = 10 /* Number of notifications to display each batch. */
+    private var notificationsToDisplay:Int = 0 /* Number of notifications to display each batch. */
     private val dao by lazy {(application as TranslationApplication).database.iDao()}
     private lateinit var allWordsInDB: LiveData<List<Word>> /* All the words in the DB. */
     private var notifications: MutableList<Notification>? = null
@@ -51,6 +51,8 @@ class LearningService2 : LifecycleService() { /* for observers */
         Log.d(_tag, "onCreate()")
         allWordsInDB = dao.loadAllWords()
         createNotificationChannel()
+        notificationsToDisplay = sharedPreferences.getInt(R.string.words_per_lesson.toString(),10)
+        Log.d(_tag,"Notification to display : ${notificationsToDisplay}")
     }
 
     /**
@@ -208,7 +210,7 @@ class LearningService2 : LifecycleService() { /* for observers */
 
             if (notificationsToDisplay > allWordsInDB.value!!.size) // Adapt to number of elements in DB
                 notificationsToDisplay = allWordsInDB.value!!.size
-
+            Log.d(_tag,"number of notifs in draw randomWord : $notificationsToDisplay")
             var missing = notificationsToDisplay
             while (list.size != notificationsToDisplay) {
                 for (i in 0 until missing) // add missing random words
