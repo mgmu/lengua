@@ -22,15 +22,6 @@ import fr.uparis.lengua.databinding.FragmentSettingsBinding
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
 
-    private val REMAINING_NOTIFICATIONS = "number of notifications to send for next course"
-    private val HOUR_ = "hour"
-    private val MINUTE_ = "minute"
-    private val RECAP_FREQUENCY_ = "repeatingInterval"
-    private val possibleFrequencies = listOf<Long>(
-        AlarmManager.INTERVAL_FIFTEEN_MINUTES,
-        AlarmManager.INTERVAL_HALF_HOUR,
-        AlarmManager.INTERVAL_DAY
-    )
 
     /**
      * Getting sharedprefrences to know how many notification we should send.
@@ -52,7 +43,7 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         sharedPref = (context?.getSharedPreferences(
-            R.string.shared_preferences.toString(),
+            getString(R.string.shared_preferences),
             Context.MODE_PRIVATE
         )) as SharedPreferences
 
@@ -70,41 +61,39 @@ class SettingsFragment : Fragment() {
             nbOfWordsSpinner.setSelection(0)
         }
 
-        binding.saveBtn.setOnClickListener(
-            {
+        binding.saveBtn.setOnClickListener {
 
-                val hoursContent = binding.hours.text
-                val minutesContent = binding.minutes.text
-                if (!hoursContent.isEmpty() && !minutesContent.isEmpty()) {
-                    val hours = Integer.parseInt(hoursContent.toString())
-                    val minutes = Integer.parseInt(minutesContent.toString())
-                    val chosenFrequence = getFrequency(hours, minutes)
-                    val nbOfWords = nbOfWordsSpinner.selectedItem.toString()
-                    Log.d("logLENGUA", " fequencey : $chosenFrequence")
-                    Log.d("logLENGUA", "nbOfWords : $nbOfWords")
+            val hoursContent = binding.hours.text
+            val minutesContent = binding.minutes.text
+            if (!hoursContent.isEmpty() && !minutesContent.isEmpty()) {
+                val hours = Integer.parseInt(hoursContent.toString())
+                val minutes = Integer.parseInt(minutesContent.toString())
+                val chosenFrequence = getFrequency(hours, minutes)
+                val nbOfWords = nbOfWordsSpinner.selectedItem.toString()
+                Log.d("LogLENGUA", " fequencey : $chosenFrequence")
+                Log.d("LogLENGUA", "nbOfWords : $nbOfWords")
 
-                    sharedPref.edit().putInt(
-                        R.string.recap_frequency.toString(),
-                        chosenFrequence
-                    ).apply()
+                sharedPref.edit().putInt(
+                    R.string.recap_frequency.toString(),
+                    chosenFrequence
+                ).apply()
 
-                    sharedPref.edit().putInt(
-                        R.string.words_per_lesson.toString(),
-                        Integer.valueOf(nbOfWordsSpinner.selectedItem.toString())
-                    ).apply()
-                    Log.d(
-                        "logLENGUA",
-                        "${sharedPref.getInt(R.string.words_per_lesson.toString(), -1)}"
-                    )
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "You have to fill hours and minutes fields.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                sharedPref.edit().putInt(
+                    getString(R.string.words_per_lesson),
+                    Integer.parseInt(nbOfWordsSpinner.selectedItem.toString())
+                ).apply()
+                Log.d(
+                    "LogLENGUA",
+                    "${sharedPref.getInt(getString(R.string.words_per_lesson), -1)}"
+                )
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "You have to fill hours and minutes fields.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        )
+        }
     }
 
     fun getFrequency(hours: Int, minutes: Int): Int {
