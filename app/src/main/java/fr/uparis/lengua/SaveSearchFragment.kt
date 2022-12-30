@@ -74,7 +74,7 @@ class SaveSearchFragment : Fragment() {
                 wordToSaveEditText.text.clear()
                 sourceLanguageEditText.text.clear()
                 destinationLanguageEditText.text.clear()
-                translationUriEditText.text.toString()
+                translationUriEditText.text.clear()
             }
         }
 
