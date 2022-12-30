@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import fr.uparis.lengua.databinding.ItemLayout2Binding
+import java.lang.Math.min
 
 class WordRecyclerViewAdapter(private val model: TranslationViewModel):
     RecyclerView.Adapter<WordRecyclerViewAdapter.VH>() {
