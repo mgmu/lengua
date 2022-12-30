@@ -1,6 +1,5 @@
 package fr.uparis.lengua
 
-import android.app.AlarmManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -9,24 +8,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import fr.uparis.lengua.databinding.FragmentSettingsBinding
 
-
 /**
- * This fragment represents the setting page
+ * This fragment represents the settings page
  */
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
-
-
-    /**
-     * Getting sharedprefrences to know how many notification we should send.
-     */
     private lateinit var sharedPref: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -65,27 +58,25 @@ class SettingsFragment : Fragment() {
 
             val hoursContent = binding.hours.text
             val minutesContent = binding.minutes.text
-            if (!hoursContent.isEmpty() && !minutesContent.isEmpty()) {
+            if (hoursContent.isNotEmpty() && minutesContent.isNotEmpty()) {
                 val hours = Integer.parseInt(hoursContent.toString())
                 val minutes = Integer.parseInt(minutesContent.toString())
-                val chosenFrequence = getFrequency(hours, minutes)
+                val chosenFrequency = getFrequency(hours, minutes)
                 val nbOfWords = nbOfWordsSpinner.selectedItem.toString()
-                Log.d("LogLENGUA", " fequencey : $chosenFrequence")
+                Log.d("LogLENGUA", " fequency : $chosenFrequency")
                 Log.d("LogLENGUA", "nbOfWords : $nbOfWords")
 
-                sharedPref.edit().putInt(
-                    R.string.recap_frequency.toString(),
-                    chosenFrequence
-                ).apply()
+                with (sharedPref.edit()) {
+                    putInt(getString(R.string.recap_frequency), chosenFrequency)
+                    putInt(getString(R.string.words_per_lesson), Integer.parseInt(nbOfWordsSpinner.selectedItem.toString()))
+                    apply()
+                }
 
-                sharedPref.edit().putInt(
-                    getString(R.string.words_per_lesson),
-                    Integer.parseInt(nbOfWordsSpinner.selectedItem.toString())
-                ).apply()
                 Log.d(
                     "LogLENGUA",
                     "${sharedPref.getInt(getString(R.string.words_per_lesson), -1)}"
                 )
+
             } else {
                 Toast.makeText(
                     requireContext(),
@@ -96,7 +87,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    fun getFrequency(hours: Int, minutes: Int): Int {
+    private fun getFrequency(hours: Int, minutes: Int): Int {
         return (hours * 3600 + minutes * 60) * 1000
     }
 

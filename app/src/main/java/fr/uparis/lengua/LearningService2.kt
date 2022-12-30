@@ -123,7 +123,7 @@ class LearningService2 : LifecycleService() { /* for observers */
 
         /* Wake up service in DELAY milliseconds if it does not have to stop. */
         if (!hasToStop) {
-            val triggerTime = (System.currentTimeMillis() + delayBetweenWakesInMs)
+            val triggerTime = System.currentTimeMillis() + delayBetweenWakesInMs
             val alarmIntent = Intent(this, LearningService2::class.java)
             val pending = PendingIntent.getService(this, 1, alarmIntent, pendingFlag)
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerTime, pending)
@@ -186,7 +186,7 @@ class LearningService2 : LifecycleService() { /* for observers */
         Log.d(_tag, "LearningService2::Created notification for [$word] of id [$id]")
         return NotificationCompat.Builder(this, chanId)
             .setContentTitle(word.word)
-            .setContentText("$word.sourceLanguage -> $word.destinationLanguage")
+            .setContentText("${word.sourceLanguage} -> ${word.destinationLanguage}")
             .setSmallIcon(R.drawable.github)
             .setDeleteIntent(pendingSwipeIntent)
             .build()
