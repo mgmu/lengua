@@ -7,6 +7,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
@@ -174,6 +175,11 @@ class LearningService2 : LifecycleService() { /* for observers */
         return swipeIntent
     }
 
+    private fun createWebIntent(word: Word): Intent {
+        val uri = Uri.parse(word.link)
+        return Intent(Intent.ACTION_VIEW, uri)
+    }
+
     /**
      * Creates a Notification with the given word and returns it.
      * */
@@ -182,10 +188,15 @@ class LearningService2 : LifecycleService() { /* for observers */
         val pendingSwipeIntent =
             PendingIntent.getBroadcast(this, id, swipeIntent, pendingFlag)
 
+        val webIntent = createWebIntent(word)
+        val pendingWebIntent =
+            PendingIntent.getActivity(this, id, webIntent, pendingFlag)
+
         val chanId = getString(R.string.channel_id)
         Log.d(_tag, "LearningService2::Created notification for [$word] of id [$id]")
         return NotificationCompat.Builder(this, chanId)
             .setContentTitle(word.word)
+            .setContentIntent(pendingWebIntent)
             .setContentText("${word.sourceLanguage} -> ${word.destinationLanguage}")
             .setSmallIcon(R.drawable.github)
             .setDeleteIntent(pendingSwipeIntent)
