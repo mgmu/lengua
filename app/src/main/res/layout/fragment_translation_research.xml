@@ -11,11 +11,6 @@
         android:layout_height="wrap_content"
         android:text="@string/dictionaries_list" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <EditText
         android:id="@+id/search_word_editText"
         android:layout_width="match_parent"
@@ -44,4 +39,9 @@
             android:text="@string/other_search_word_button_text"
             style="?android:attr/buttonBarButtonStyle" />
     </LinearLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>
