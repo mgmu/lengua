@@ -87,6 +87,8 @@ class LearningService2 : LifecycleService() { /* for observers */
                 Log.d(_tag, "recovered notification")
                 val notifiedWord = wordsNotified!![notificationID]
                 Log.d(_tag, "recovered notifiedWord")
+                if (allWordsInDB.value!!.isEmpty() || allWordsInDB.value!!.size <= notificationsToDisplay)
+                    return START_NOT_STICKY
                 var newWord = notifiedWord
                 while (wordsNotified!!.contains(newWord) || newWord.swiped >= _limitSwipe) {
                     Log.d(_tag, "drawing random word")
@@ -109,6 +111,10 @@ class LearningService2 : LifecycleService() { /* for observers */
             }
             return START_NOT_STICKY
         }
+
+        Log.d("crash_swipe", "intent != null ${intent != null}")
+        Log.d("crash_swipe", "intent.action == \"update\" ${intent?.action == "update"}")
+        Log.d("crash_swipe", "allWordsInDB.value != null ${allWordsInDB.value != null}")
 
         allWordsInDB.observe(this) {
             Log.d(_tag, "LearningService2::CHANGE OF WORDS IN DB")

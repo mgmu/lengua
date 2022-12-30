@@ -76,7 +76,11 @@ class SettingsFragment : Fragment() {
                     "LogLENGUA",
                     "${sharedPref.getInt(getString(R.string.words_per_lesson), -1)}"
                 )
-
+                Toast.makeText(
+                    requireContext(),
+                    "Updated !",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
                 Toast.makeText(
                     requireContext(),
