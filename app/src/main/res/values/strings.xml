@@ -4,6 +4,24 @@
     <string name="search_word">Type a word or a sentence</string>
     <string name="search_word_button_text">Search</string>
     <string name="other_search_word_button_text">Other</string>
+    <string name="save">Save</string>
+
+    <string-array name="words_quantity">
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="lessons_frequency">
+        <item>Every 15 minutes</item>
+        <item>Every 30 minutes</item>
+        <item>Every hour</item>
+        <item>Everyday</item>
+    </string-array>
+
     <string name="word_word_key">WORD_WORD_KEY</string>
     <string name="word_src_language_key">WORD_SOURCE_LANGUAGE_KEY</string>
     <string name="word_dest_language_key">WORD_DESTINATION_LANGUAGE_KEY</string>
@@ -14,4 +32,11 @@
     <string name="channel_name">Lengua channel</string>
     <string name="channel_description">Lengua notification channel for learning service</string>
     <string name="channel_id">fr.uparis.lengua.notification_id</string>
+    <string name="number_of_words_per_lesson">Number of words per lesson?</string>
+    <string name="lesson_time">Lesson time?</string>
+    <string name="lessons_frequency">Lessons frequency ?</string>
+    <string name="words_per_lesson">WORDS_PER_LESSON</string>
+    <string name="recap_frequency">RECAP_FREQUENCY</string>
+    <string name="hour_placeholder">Hours</string>
+    <string name="minutes_placeholder">Minutes</string>
 </resources>
