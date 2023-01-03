@@ -20,8 +20,6 @@ class DictionaryRecyclerViewAdapter(private val model: TranslationViewModel):
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
 
-        Log.d("logLENGUA", "made it 2")
-
         /* Binding for dictionary item */
         val itemBinding = ItemLayoutBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
@@ -53,6 +51,7 @@ class DictionaryRecyclerViewAdapter(private val model: TranslationViewModel):
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
+
         /* assign corresponding dictionary */
         holder.dictionary = dictionaries[position]
 
