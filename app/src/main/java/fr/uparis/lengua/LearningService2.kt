@@ -18,7 +18,6 @@ import androidx.lifecycle.LiveData
 import kotlin.concurrent.thread
 
 class LearningService2 : LifecycleService() { /* for observers */
-    private val _tag = "Log of learning service"
     private var hasToStop = false /* Indicates if this service has to stop. */
     private var delayBetweenWakesInMs = 20000 /* Time between display of notifications = 20 seconds. */
     private var notificationsToDisplay:Int = 10 /* Number of notifications to display each batch. */
@@ -49,11 +48,9 @@ class LearningService2 : LifecycleService() { /* for observers */
 
     override fun onCreate() {
         super.onCreate()
-        Log.d(_tag, "onCreate()")
         allWordsInDB = dao.loadAllWords()
         createNotificationChannel()
         notificationsToDisplay = sharedPreferences.getInt(R.string.words_per_lesson.toString(),10)
-        Log.d(_tag,"Notification to display : $notificationsToDisplay")
     }
 
     /**
@@ -73,56 +70,33 @@ class LearningService2 : LifecycleService() { /* for observers */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
-        Log.d(_tag, "LearningService2::onStartCommand()")
-
         delayBetweenWakesInMs = sharedPreferences.getInt(getString(R.string.recap_frequency),delayBetweenWakesInMs)
         notificationsToDisplay = sharedPreferences.getInt(getString(R.string.words_per_lesson),notificationsToDisplay)
-        Log.d(_tag,"Notification to display : $notificationsToDisplay")
-        Log.d(_tag,"Delay between wake ups : $delayBetweenWakesInMs")
         // Update word in db and displayed notification
         if (intent != null && intent.action == "update" && allWordsInDB.value != null) {
-            Log.d(_tag, "UPDATE ACTION")
             if (intent.extras != null && wordsNotified != null && notifications != null) {
                 val notificationID = intent.extras!!.getInt(getString(R.string.notification_id_key))
-                Log.d(_tag, "recovered notification")
                 val notifiedWord = wordsNotified!![notificationID]
-                Log.d(_tag, "recovered notifiedWord")
                 if (allWordsInDB.value!!.isEmpty() || allWordsInDB.value!!.size <= notificationsToDisplay)
                     return START_NOT_STICKY
                 var newWord = notifiedWord
-                while (wordsNotified!!.contains(newWord) || newWord.swiped >= _limitSwipe) {
-                    Log.d(_tag, "drawing random word")
+                while (wordsNotified!!.contains(newWord) || newWord.swiped >= _limitSwipe)
                     newWord = allWordsInDB.value!![(allWordsInDB.value!!.indices).random()]
-                }
-                Log.d(_tag, "drawn new random word")
                 val newNotification = createNotificationFromWord(newWord, notificationID)
-                Log.d(_tag, "created new notification")
                 wordsNotified!![notificationID] = newWord
-                Log.d(_tag, "assigned new word in notified words")
                 notifications!![notificationID] = newNotification
-                Log.d(_tag, "assigned new notification in displayed notifications")
                 notificationManager.notify(notificationID, newNotification)
-                Log.d(_tag, "notified new notification")
                 notifiedWord.swiped++
-                Log.d(_tag, "about to start thread for word update")
                 thread { dao.updateWord(notifiedWord) }
-                Log.d(_tag, "started thread for word update")
-                Log.d(_tag, "end of UPDATE ACTION")
             }
             return START_NOT_STICKY
         }
 
-        Log.d("crash_swipe", "intent != null ${intent != null}")
-        Log.d("crash_swipe", "intent.action == \"update\" ${intent?.action == "update"}")
-        Log.d("crash_swipe", "allWordsInDB.value != null ${allWordsInDB.value != null}")
-
         allWordsInDB.observe(this) {
-            Log.d(_tag, "LearningService2::CHANGE OF WORDS IN DB")
             val lastDisplayTime =
                 sharedPreferences.getLong(getString(R.string.last_display_time_key), -1)
             if (lastDisplayTime == -1L
                 || lastDisplayTime + delayBetweenWakesInMs <= System.currentTimeMillis()) {
-                    Log.d(_tag, "LearningService2::Never displayed notifications before or triggered by other service")
                     displayNotifications()
                     updateLastDisplayTime(System.currentTimeMillis())
             }
@@ -157,7 +131,6 @@ class LearningService2 : LifecycleService() { /* for observers */
      * manager.
      * */
     private fun displayNotifications() {
-        Log.d(_tag, "LearningService2::displayNotifications()")
         wordsNotified = drawRandomWords() // Draw at most notificationsToDisplay words from loaded words
 
         if (notifications == null) // first start of service after a destruction
@@ -177,7 +150,6 @@ class LearningService2 : LifecycleService() { /* for observers */
         val swipeIntent = Intent(this, NotificationDismissReceiver::class.java)
         val swipeIntentExtras = Bundle().apply { putInt(getString(R.string.notification_id_key), id) }
         swipeIntent.putExtras(swipeIntentExtras)
-        Log.d(_tag, "LearningService2::Created swipe intent for id [$id]")
         return swipeIntent
     }
 
@@ -190,6 +162,8 @@ class LearningService2 : LifecycleService() { /* for observers */
      * Creates a Notification with the given word and returns it.
      * */
     private fun createNotificationFromWord(word: Word, id: Int): Notification {
+        Log.d("learning service lengua", "word has been swiped ${word.swiped} times")
+
         val swipeIntent = createSwipeIntent(id)
         val pendingSwipeIntent =
             PendingIntent.getBroadcast(this, id, swipeIntent, pendingFlag)
@@ -199,7 +173,6 @@ class LearningService2 : LifecycleService() { /* for observers */
             PendingIntent.getActivity(this, id, webIntent, pendingFlag)
 
         val chanId = getString(R.string.channel_id)
-        Log.d(_tag, "LearningService2::Created notification for [$word] of id [$id]")
         return NotificationCompat.Builder(this, chanId)
             .setContentTitle(word.word)
             .setContentIntent(pendingWebIntent)
@@ -211,13 +184,7 @@ class LearningService2 : LifecycleService() { /* for observers */
 
     override fun onBind(intent: Intent): IBinder {
         super.onBind(intent)
-        Log.d(_tag, "LearningService2::onBind()")
         TODO("Return the communication channel to the service.")
-    }
-
-    override fun onDestroy() {
-        Log.d(_tag, "LearningService2::onDestroy()")
-        super.onDestroy()
     }
 
     /**
@@ -230,7 +197,6 @@ class LearningService2 : LifecycleService() { /* for observers */
 
             if (notificationsToDisplay > allWordsInDB.value!!.size) // Adapt to number of elements in DB
                 notificationsToDisplay = allWordsInDB.value!!.size
-            Log.d(_tag,"number of notifs in draw randomWord : $notificationsToDisplay")
             var missing = notificationsToDisplay
             while (list.size != notificationsToDisplay) {
                 for (i in 0 until missing) // add missing random words

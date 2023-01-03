@@ -20,10 +20,7 @@ class WordRecyclerViewAdapter(private val model: TranslationViewModel):
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
 
-        Log.d("logLENGUA", "made it 2")
-
         /* Binding for Word item */
-
         val itemBinding = ItemLayout2Binding
             .inflate(LayoutInflater.from(parent.context), parent, false)
         val holder = VH(itemBinding)
@@ -64,6 +61,7 @@ class WordRecyclerViewAdapter(private val model: TranslationViewModel):
             wordSourceLanguageTextView.text = holder.word!!.sourceLanguage
             wordDestinationLanguageTextView.text = holder.word!!.destinationLanguage
             wordLinkTextView.text = holder.word!!.link
+            wordSwipeTextView.text = holder.word!!.swiped.toString()
 
             val color =
                 if (holder.word == model.selectedWord.value)
