@@ -15,6 +15,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.LiveData
+import java.lang.Integer.max
 import kotlin.concurrent.thread
 
 class LearningService2 : LifecycleService() { /* for observers */
@@ -77,6 +78,8 @@ class LearningService2 : LifecycleService() { /* for observers */
             if (intent.extras != null && wordsNotified != null && notifications != null) {
                 val notificationID = intent.extras!!.getInt(getString(R.string.notification_id_key))
                 val notifiedWord = wordsNotified!![notificationID]
+                notifiedWord.swiped++
+                thread { dao.updateWord(notifiedWord) }
                 if (allWordsInDB.value!!.isEmpty() || allWordsInDB.value!!.size <= notificationsToDisplay)
                     return START_NOT_STICKY
                 var newWord = notifiedWord
@@ -86,8 +89,6 @@ class LearningService2 : LifecycleService() { /* for observers */
                 wordsNotified!![notificationID] = newWord
                 notifications!![notificationID] = newNotification
                 notificationManager.notify(notificationID, newNotification)
-                notifiedWord.swiped++
-                thread { dao.updateWord(notifiedWord) }
             }
             return START_NOT_STICKY
         }
@@ -162,8 +163,6 @@ class LearningService2 : LifecycleService() { /* for observers */
      * Creates a Notification with the given word and returns it.
      * */
     private fun createNotificationFromWord(word: Word, id: Int): Notification {
-        Log.d("learning service lengua", "word has been swiped ${word.swiped} times")
-
         val swipeIntent = createSwipeIntent(id)
         val pendingSwipeIntent =
             PendingIntent.getBroadcast(this, id, swipeIntent, pendingFlag)
@@ -195,8 +194,18 @@ class LearningService2 : LifecycleService() { /* for observers */
         if (allWordsInDB.value != null) { // If words have not been retrieved yet, do nothing
             var list = mutableListOf<Word>()
 
-            if (notificationsToDisplay > allWordsInDB.value!!.size) // Adapt to number of elements in DB
+            // Adapt to number of elements in DB
+            if (notificationsToDisplay > allWordsInDB.value!!.size)
                 notificationsToDisplay = allWordsInDB.value!!.size
+
+            // count words that can't be displayed anymore
+            var count = 0
+            for (word in allWordsInDB.value!!)
+                if (word.swiped >= 3) count++
+
+            // adapt notificationsToDisplay to number of elements that can't be displayed anymore
+            notificationsToDisplay -= count
+
             var missing = notificationsToDisplay
             while (list.size != notificationsToDisplay) {
                 for (i in 0 until missing) // add missing random words
