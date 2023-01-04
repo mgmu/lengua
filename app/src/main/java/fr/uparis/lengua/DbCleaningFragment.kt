@@ -1,7 +1,6 @@
 package fr.uparis.lengua
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +20,7 @@ class DbCleaningFragment : Fragment(), OnItemSelectedListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.fragment_db_cleaning, container, false)
         binding = FragmentDbCleaningBinding.bind(v!!)
@@ -61,7 +60,6 @@ class DbCleaningFragment : Fragment(), OnItemSelectedListener {
     }
 
     private fun displayFragmentOfTag(tag: String) {
-        Log.d("logLENGUA", "display fragment of : $tag")
         val containerId = R.id.list_fragment_container_view
         val tag2: String
         val fragment: Fragment
@@ -87,8 +85,8 @@ class DbCleaningFragment : Fragment(), OnItemSelectedListener {
     }
 
     companion object {
-        private val DICT_TAG = "Dictionaries"
-        private val WORD_TAG = "Words"
+        private const val DICT_TAG = "Dictionaries"
+        private const val WORD_TAG = "Words"
 
         @JvmStatic
         fun newInstance() =
@@ -100,15 +98,9 @@ class DbCleaningFragment : Fragment(), OnItemSelectedListener {
     override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
         val selected = parent.getItemAtPosition(pos) as String
 
-        Log.d("logLENGUA", "Selected: $selected")
-
         /* Check if selected element is already displayed */
-        if (selected != displayedTag) {/* Update list fragment if not already displayed */
-            Log.d("logLENGUA", "not already displayed")
+        if (selected != displayedTag) /* Update list fragment if not already displayed */
             displayFragmentOfTag(selected)
-        } else {
-            Log.d("logLENGUA", "already displayed")
-        }
 
         /* Reset selected data on list change. */
         model.resetSelected()

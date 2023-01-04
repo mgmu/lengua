@@ -1,7 +1,6 @@
 package fr.uparis.lengua
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +18,6 @@ class SaveSearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        Log.d(TAG, "SaveSearchFragment onCreateView")
         return inflater.inflate(R.layout.fragment_save_search, container, false)
     }
 
@@ -30,12 +28,9 @@ class SaveSearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentSaveSearchBinding.bind(view)
 
-        Log.d(TAG, "SaveSearchFragment onViewCreated")
-
         /* Get translation uri value if present */
         val translationUri = requireArguments().getString(URI_KEY, "")
         if (translationUri.isNotBlank()) {
-            Log.d(TAG, "SaveSearchFragment translationUri is not blank")
             binding.translationUriEditText.setText(translationUri)
             binding.dictionaryUriEditText.setText(translationUri)
         }
@@ -53,8 +48,6 @@ class SaveSearchFragment : Fragment() {
         /* On Save Word button click, add word DB */
         binding.saveWordButton.setOnClickListener {
 
-            Log.d(TAG, "SaveSearchFragment saveWordButton on click listener")
-
             /* Word entity fields */
             val word = binding.wordToSaveEditText.text.toString()
             val srcL = binding.sourceLanguageEditText.text.toString()
@@ -70,7 +63,6 @@ class SaveSearchFragment : Fragment() {
 
             /* Reset fields */
             with (binding) {
-                Log.d(TAG, "FIELDS RESET")
                 wordToSaveEditText.text.clear()
                 sourceLanguageEditText.text.clear()
                 destinationLanguageEditText.text.clear()
@@ -80,8 +72,6 @@ class SaveSearchFragment : Fragment() {
 
         /* On Save dictionary button click, add dictionary to DB */
         binding.saveDictionaryButton.setOnClickListener {
-
-            Log.d(TAG, "SaveSearchFragment saveDictionaryButton on click listener")
 
             /* Dictionary entity fields */
             val dictName = binding.dictionaryNameEditText.text.toString()
@@ -131,12 +121,10 @@ class SaveSearchFragment : Fragment() {
     }
 
     companion object {
-        private val TAG = "logSAVESEARCH"
-        private val URI_KEY = "URI_KEY"
+        private const val URI_KEY = "URI_KEY"
 
         @JvmStatic
         fun newInstance(): SaveSearchFragment {
-            Log.d(TAG, "NEW INSTANCE")
             return SaveSearchFragment().apply {
                 arguments = Bundle() /* no arguments */
             }
@@ -144,7 +132,6 @@ class SaveSearchFragment : Fragment() {
 
         @JvmStatic
         fun newInstance(uri: String): SaveSearchFragment {
-            Log.d(TAG, "NEW INSTANCE URI")
             return SaveSearchFragment().apply {
                 arguments = Bundle().apply {
                     putString(URI_KEY, uri)
@@ -154,7 +141,6 @@ class SaveSearchFragment : Fragment() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        Log.d(TAG, "SaveSearchFragment onSaveInstanceState")
         super.onSaveInstanceState(outState)
         val word = binding.wordToSaveEditText.text
         val srcL = binding.sourceLanguageEditText.text

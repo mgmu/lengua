@@ -3,14 +3,12 @@ package fr.uparis.lengua
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import fr.uparis.lengua.databinding.FragmentTranslationResearchBinding
 
 class TranslationResearchFragment:
@@ -20,10 +18,10 @@ class TranslationResearchFragment:
     private val model: TranslationViewModel by activityViewModels()
 
     companion object {
-        private val HTTP = "http://"
-        private val HTTPS = "https://"
-        private val GOOGLE_URI = "www.google.fr/search?q="
-        private val DICTIONARY_LIST_FRAGMENT_TAG = "tag1"
+        private const val HTTP = "http://"
+        private const val HTTPS = "https://"
+        private const val GOOGLE_URI = "www.google.fr/search?q="
+        private const val DICTIONARY_LIST_FRAGMENT_TAG = "tag1"
 
         @JvmStatic
         fun newInstance() = TranslationResearchFragment()
@@ -33,7 +31,7 @@ class TranslationResearchFragment:
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val v = super.onCreateView(inflater, container, savedInstanceState)
         binding = FragmentTranslationResearchBinding.bind(v!!)
         return v
@@ -77,7 +75,7 @@ class TranslationResearchFragment:
         }
     }
 
-    fun startWebIntent(uri: String) {
+    private fun startWebIntent(uri: String) {
         if (uri.startsWith(HTTP) || uri.startsWith(HTTPS)) {
             val webIntent = Intent(Intent.ACTION_VIEW)
             webIntent.data = Uri.parse(uri)

@@ -1,12 +1,10 @@
 package fr.uparis.lengua
 
 import android.graphics.Color
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import fr.uparis.lengua.databinding.ItemLayoutBinding
-import java.lang.Integer.min
 
 class DictionaryRecyclerViewAdapter(private val model: TranslationViewModel):
     RecyclerView.Adapter<DictionaryRecyclerViewAdapter.VH>() {

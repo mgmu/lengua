@@ -11,11 +11,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.LiveData
-import java.lang.Integer.max
 import kotlin.concurrent.thread
 
 class LearningService2 : LifecycleService() { /* for observers */

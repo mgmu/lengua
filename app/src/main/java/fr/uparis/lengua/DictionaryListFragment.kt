@@ -1,7 +1,6 @@
 package fr.uparis.lengua
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import fr.uparis.lengua.databinding.FragmentDictionaryListBinding
 import fr.uparis.lengua.databinding.FragmentDictionaryListListBinding
 
 /**

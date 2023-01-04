@@ -3,7 +3,6 @@ package fr.uparis.lengua
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,12 +18,6 @@ import fr.uparis.lengua.databinding.FragmentSettingsBinding
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
     private lateinit var sharedPref: SharedPreferences
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,24 +56,14 @@ class SettingsFragment : Fragment() {
                 val minutes = Integer.parseInt(minutesContent.toString())
                 val chosenFrequency = getFrequency(hours, minutes)
                 val nbOfWords = nbOfWordsSpinner.selectedItem.toString()
-                Log.d("LogLENGUA", " fequency : $chosenFrequency")
-                Log.d("LogLENGUA", "nbOfWords : $nbOfWords")
 
                 with (sharedPref.edit()) {
                     putInt(getString(R.string.recap_frequency), chosenFrequency)
-                    putInt(getString(R.string.words_per_lesson), Integer.parseInt(nbOfWordsSpinner.selectedItem.toString()))
+                    putInt(getString(R.string.words_per_lesson), Integer.parseInt(nbOfWords))
                     apply()
                 }
 
-                Log.d(
-                    "LogLENGUA",
-                    "${sharedPref.getInt(getString(R.string.words_per_lesson), -1)}"
-                )
-                Toast.makeText(
-                    requireContext(),
-                    "Updated !",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(requireContext(), "Updated !", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(
                     requireContext(),
@@ -91,9 +74,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun getFrequency(hours: Int, minutes: Int): Int {
-        return (hours * 3600 + minutes * 60) * 1000
-    }
+    private fun getFrequency(hours: Int, minutes: Int): Int = (hours * 3600 + minutes * 60) * 1000
 
     companion object {
 
