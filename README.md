@@ -1,2 +1,2 @@
 # lengua
-An android application that aims to help memorizing new words with their definitions.
+An android application that aims to help memorizing new terms with their definition.
