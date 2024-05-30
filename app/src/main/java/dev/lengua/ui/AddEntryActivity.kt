@@ -36,8 +36,13 @@ class AddEntryActivity: ComponentActivity() {
                     { term = it },
                     definition,
                     { definition = it },
-                    { viewModel.addEntry(term, definition) },
-                    "Add"
+                    {
+                        viewModel.addEntry(term, definition)
+                        finish()
+                    },
+                    "Add",
+                    "term",
+                    "definition"
                 )
             }
         }
@@ -50,15 +55,17 @@ class AddEntryActivity: ComponentActivity() {
         definition: String,
         onDefinitionValueChange: (String) -> Unit,
         onClick: () -> Unit,
-        buttonText: String
+        buttonText: String,
+        placeholderTerm: String,
+        placeholderDef: String
     ) {
         Surface(modifier = Modifier.fillMaxSize()) {
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                EntryElementTextField(term, onTermValueChange)
-                EntryElementTextField(definition, onDefinitionValueChange)
+                EntryElementTextField(term, onTermValueChange, placeholderTerm)
+                EntryElementTextField(definition, onDefinitionValueChange, placeholderDef)
                 Button(onClick) {
                     Text(buttonText)
                 }
@@ -67,15 +74,23 @@ class AddEntryActivity: ComponentActivity() {
     }
 
     @Composable
-    fun EntryElementTextField(text: String, onValueChange: (String) -> Unit ) {
-        TextField(text, onValueChange)
+    fun EntryElementTextField(
+        text: String,
+        onValueChange: (String) -> Unit,
+        placeholderText: String
+    ) {
+        TextField(
+            value = text,
+            onValueChange = onValueChange,
+            placeholder = { Text(placeholderText) }
+        )
     }
 
     @Preview
     @Composable
     fun PreviewAddEntryScreen() {
         LenguaTheme {
-            AddEntryScreen("term", {}, "definition", {}, {}, "Add")
+            AddEntryScreen("term", {}, "definition", {}, {}, "Add", "term", "definition")
         }
     }
 }
