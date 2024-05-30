@@ -14,6 +14,8 @@ class LenguaApp: Application() {
     companion object {
         private lateinit var database: AppDatabase
 
+        val TAG = "logcat_tag_lengua_app"
+
         fun entryDao() = database.entryDao()
     }
 }

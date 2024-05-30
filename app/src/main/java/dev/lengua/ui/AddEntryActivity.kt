@@ -3,6 +3,7 @@ package dev.lengua.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,11 +22,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import dev.lengua.ui.theme.LenguaTheme
 
 class AddEntryActivity: ComponentActivity() {
+    private val viewModel: AddEntryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val viewModel = AddEntryViewModel()
 
         setContent {
             LenguaTheme {

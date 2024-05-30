@@ -7,6 +7,8 @@ import kotlinx.coroutines.launch
 
 class AddEntryViewModel: ViewModel() {
 
+    private val entriesRepo = EntriesRepository.instance()
+
     /**
      * Adds a new entry to the entry repository.
      *
@@ -14,7 +16,6 @@ class AddEntryViewModel: ViewModel() {
      * @param definition the definition of the new entry
      */
     fun addEntry(term: String, definition: String) {
-        val entriesRepo = EntriesRepository.instance()
         viewModelScope.launch {
             entriesRepo.add(Entry(term, definition))
         }

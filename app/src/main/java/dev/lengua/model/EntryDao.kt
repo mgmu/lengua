@@ -12,6 +12,6 @@ interface EntryDao {
     @Query("SELECT * FROM entry")
     fun getAll(): Flow<List<EntryDatabaseModel>>
 
-    @Insert(entity = EntryDatabaseModel::class)
+    @Insert(entity = EntryEntity::class)
     suspend fun insert(entry: Entry)
 }
