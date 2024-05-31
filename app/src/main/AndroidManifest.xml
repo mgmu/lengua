@@ -25,6 +25,9 @@
 
         <activity
             android:name=".ui.AddEntryActivity" />
+
+        <activity
+            android:name=".ui.EditEntryActivity" />
     </application>
 
 </manifest>

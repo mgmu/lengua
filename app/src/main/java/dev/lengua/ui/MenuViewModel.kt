@@ -16,4 +16,8 @@ class MenuViewModel: ViewModel() {
             entriesRepo.delete(entry)
         }
     }
+
+    fun setEntryToEdit(entryToEdit: IdentifiedEntry) {
+        entriesRepo.setEntryToEdit(entryToEdit)
+    }
 }

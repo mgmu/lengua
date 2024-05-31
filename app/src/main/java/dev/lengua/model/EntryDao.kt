@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import dev.lengua.ui.Entry
 import kotlinx.coroutines.flow.Flow
 
@@ -18,4 +19,7 @@ interface EntryDao {
 
     @Delete(entity = EntryEntity::class)
     suspend fun delete(entry: EntryDatabaseModel)
+
+    @Update(entity = EntryEntity::class)
+    suspend fun update(entry: EntryDatabaseModel)
 }

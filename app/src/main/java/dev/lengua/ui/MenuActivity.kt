@@ -45,6 +45,12 @@ class MenuActivity: ComponentActivity() {
         startActivity(intent)
     }
 
+    private fun editEntry(entryToEdit: IdentifiedEntry) {
+        viewModel.setEntryToEdit(entryToEdit)
+        val intent = Intent(this, EditEntryActivity::class.java)
+        startActivity(intent)
+    }
+
     @Preview(showBackground = true)
     @Composable
     fun PreviewMenuScreen() {
@@ -98,6 +104,9 @@ class MenuActivity: ComponentActivity() {
                     viewModel.delete(entry)
                 }) {
                     Text("remove")
+                }
+                Button(onClick = { editEntry(entry) }) {
+                    Text("edit")
                 }
             }
             Divider()
