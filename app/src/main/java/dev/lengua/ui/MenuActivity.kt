@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.LazyColumn
@@ -88,8 +89,17 @@ class MenuActivity: ComponentActivity() {
     @Composable
     fun ListItem(entry: IdentifiedEntry) {
         Column {
-            Text(entry.term())
-            Text(entry.definition())
+            Row {
+                Column {
+                    Text(entry.term())
+                    Text(entry.definition())
+                }
+                Button(onClick = {
+                    viewModel.delete(entry)
+                }) {
+                    Text("remove")
+                }
+            }
             Divider()
         }
     }

@@ -1,6 +1,7 @@
 package dev.lengua.model
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import dev.lengua.ui.Entry
@@ -14,4 +15,7 @@ interface EntryDao {
 
     @Insert(entity = EntryEntity::class)
     suspend fun insert(entry: Entry)
+
+    @Delete(entity = EntryEntity::class)
+    suspend fun delete(entry: EntryDatabaseModel)
 }

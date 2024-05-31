@@ -20,6 +20,15 @@ class EntriesRepository private constructor() {
         entryDao.insert(entry)
     }
 
+    suspend fun delete(entry: IdentifiedEntry) {
+        val model = EntryDatabaseModel(
+            entry.id(),
+            entry.term(),
+            entry.definition()
+        )
+        entryDao.delete(model)
+    }
+
     companion object {
         private var instance: EntriesRepository? = null
 
