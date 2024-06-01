@@ -1,5 +1,6 @@
 package dev.lengua.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,10 +12,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
+import dev.lengua.ui.components.EditableEntryWithButton
 import dev.lengua.ui.theme.LenguaTheme
 
 class EditEntryActivity: ComponentActivity() {
-    private val viewModel: EditEntryViewModel by viewModels()
+    private val viewModel: EditEntryViewModel by viewModels {
+        EditEntryViewModel.Factory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +43,7 @@ class EditEntryActivity: ComponentActivity() {
                     mutableStateOf(initialDefinition)
                 }
                 EditEntryActivityScreen(
+                    "Edit",
                     term,
                     { term = it },
                     definition,
@@ -54,33 +59,45 @@ class EditEntryActivity: ComponentActivity() {
 
     @Composable
     fun EditEntryActivityScreen(
+        title: String,
         term: String,
         onTermValueChange: (String) -> Unit,
         definition: String,
         onDefinitionValueChange: (String) -> Unit,
         onClick: () -> Unit
     ) {
-        EntryDescriptionWithButton(
+        EditableEntryWithButton(
+            title,
             term,
             onTermValueChange,
             definition,
             onDefinitionValueChange,
             onClick,
-            "Edit",
+            "Save",
             "edit term",
             "edit definition"
         )
     }
 
-    @Preview
+    @Preview(
+        uiMode = Configuration.UI_MODE_NIGHT_YES,
+        name = "DefaultPreviewDark"
+    )
+    @Preview(
+        uiMode = Configuration.UI_MODE_NIGHT_NO,
+        name = "DefaultPreviewLight"
+    )
     @Composable
     fun EditEntryActivityScreenPreview() {
-        EditEntryActivityScreen(
-            "preview term",
-            {},
-            "preview definition",
-            {},
-            {}
-        )
+        LenguaTheme {
+            EditEntryActivityScreen(
+                "Edit",
+                "preview term",
+                {},
+                "preview definition",
+                {},
+                {}
+            )
+        }
     }
 }

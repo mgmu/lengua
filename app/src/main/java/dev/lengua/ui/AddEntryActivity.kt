@@ -1,5 +1,6 @@
 package dev.lengua.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,10 +11,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
+import dev.lengua.ui.components.EditableEntryWithButton
 import dev.lengua.ui.theme.LenguaTheme
 
 class AddEntryActivity: ComponentActivity() {
-    private val viewModel: AddEntryViewModel by viewModels()
+    private val viewModel: AddEntryViewModel by viewModels {
+        AddEntryViewModel.Factory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +27,7 @@ class AddEntryActivity: ComponentActivity() {
                 var term by rememberSaveable { mutableStateOf("") }
                 var definition by rememberSaveable { mutableStateOf("") }
                 AddEntryScreen(
+                    "New term",
                     term,
                     { term = it },
                     definition,
@@ -31,7 +36,7 @@ class AddEntryActivity: ComponentActivity() {
                         viewModel.addEntry(term, definition)
                         finish()
                     },
-                    "Add",
+                    "Save",
                     "term",
                     "definition"
                 )
@@ -41,6 +46,7 @@ class AddEntryActivity: ComponentActivity() {
 
     @Composable
     fun AddEntryScreen(
+        title: String,
         term: String,
         onTermValueChange: (String) -> Unit,
         definition: String,
@@ -50,7 +56,8 @@ class AddEntryActivity: ComponentActivity() {
         placeholderTerm: String,
         placeholderDef: String
     ) {
-        EntryDescriptionWithButton(
+        EditableEntryWithButton(
+            title,
             term,
             onTermValueChange,
             definition,
@@ -62,11 +69,28 @@ class AddEntryActivity: ComponentActivity() {
         )
     }
 
-    @Preview
+    @Preview(
+        uiMode = Configuration.UI_MODE_NIGHT_YES,
+        name = "DefaultPreviewDark"
+    )
+    @Preview(
+        uiMode = Configuration.UI_MODE_NIGHT_NO,
+        name = "DefaultPreviewLight"
+    )
     @Composable
     fun PreviewAddEntryScreen() {
         LenguaTheme {
-            AddEntryScreen("term", {}, "definition", {}, {}, "Add", "term", "definition")
+            AddEntryScreen(
+                "New term",
+                "term",
+                {},
+                "definition",
+                {},
+                {},
+                "Save",
+                "term",
+                "definition"
+            )
         }
     }
 }

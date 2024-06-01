@@ -15,11 +15,14 @@ abstract class AppDatabase: RoomDatabase() {
         fun instance(context: Context): AppDatabase {
             if (instance != null)
                 return instance!!
-            instance = Room.databaseBuilder(
-                context.applicationContext,
-                AppDatabase::class.java,
-                "app-db"
-            ).build()
+            instance = Room
+                .databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java,
+                    "app-db"
+                )
+                .fallbackToDestructiveMigration()
+                .build()
             return instance!!
         }
     }
