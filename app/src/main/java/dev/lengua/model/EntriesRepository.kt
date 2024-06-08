@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface EntriesRepository {
 
-    var entryToEdit: MutableLiveData<IdentifiedEntry?>
+    var entryToEdit: IdentifiedEntry?
 
     val allEntries: Flow<List<IdentifiedEntry>>
 
@@ -16,8 +16,6 @@ interface EntriesRepository {
     suspend fun delete(entry: IdentifiedEntry)
 
     suspend fun update(entry: IdentifiedEntry)
-
-    fun setEntryToEdit(entryToEdit: IdentifiedEntry)
 
     fun clearEntryToEdit()
 }

@@ -17,12 +17,22 @@ class AddEntryViewModel(
     /**
      * Adds a new entry to the entry repository.
      *
+     * If [term] or [definition] are invalid, the entry is not added.
+     *
      * @param term the term of the new entry
      * @param definition the definition of the new entry
+     *
+     * @return true if the entry was added to the repository
      */
-    fun addEntry(term: String, definition: String) {
-        viewModelScope.launch {
-            entriesRepo.add(Entry(term, definition))
+    fun addEntry(term: String, definition: String): Boolean {
+        try {
+            val entry = Entry(term, definition)
+            viewModelScope.launch {
+                entriesRepo.add(entry)
+            }
+            return true
+        } catch (iae: IllegalArgumentException) {
+            return false
         }
     }
 

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.transform
 class DefaultEntriesRepository(
     private val entryDao: EntryDao
 ): EntriesRepository {
-    override var entryToEdit = MutableLiveData<IdentifiedEntry?>(null)
+    override var entryToEdit: IdentifiedEntry? = null
 
     override val allEntries = entryDao.getAll().transform {
         val entries = mutableListOf<IdentifiedEntry>()
@@ -39,11 +39,11 @@ class DefaultEntriesRepository(
         entryDao.update(model)
     }
 
-    override fun setEntryToEdit(entryToEdit: IdentifiedEntry) {
-        this.entryToEdit.postValue(entryToEdit)
-    }
+    //override fun setEntryToEdit(entryToEdit: IdentifiedEntry) {
+    //    this.entryToEdit = entryToEdit
+    //}
 
     override fun clearEntryToEdit() {
-        this.entryToEdit.postValue(null)
+        this.entryToEdit = null
     }
 }

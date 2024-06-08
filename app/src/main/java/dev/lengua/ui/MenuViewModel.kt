@@ -24,7 +24,7 @@ class MenuViewModel(private val entriesRepo: EntriesRepository): ViewModel() {
     }
 
     fun setEntryToEdit(entryToEdit: IdentifiedEntry) {
-        entriesRepo.setEntryToEdit(entryToEdit)
+        entriesRepo.entryToEdit = entryToEdit
     }
 
     fun setEntryToDelete(entryToDelete: IdentifiedEntry?) {

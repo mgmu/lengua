@@ -15,17 +15,24 @@ class EditEntryViewModel(
 ): ViewModel() {
     val entryToEdit = entriesRepo.entryToEdit
 
-    fun updateEntry(editedTerm: String, editedDefinition: String) {
-        if (entryToEdit.value != null) {
-            val updatedEntry = entryToEdit.value!!.copy(
-                term = editedTerm,
-                definition = editedDefinition
-            )
-            viewModelScope.launch {
-                entriesRepo.update(updatedEntry)
+    fun updateEntry(editedTerm: String, editedDefinition: String): Boolean {
+        if (entryToEdit != null) {
+            try {
+                val updatedEntry = IdentifiedEntry(
+                    entryToEdit.id(),
+                    editedTerm,
+                    editedDefinition
+                )
+                viewModelScope.launch {
+                    entriesRepo.update(updatedEntry)
+                }
+                entriesRepo.clearEntryToEdit()
+                return true
+            } catch (iae: IllegalArgumentException) {
+                return false
             }
-            entriesRepo.clearEntryToEdit()
         }
+        return false
     }
 
     companion object {

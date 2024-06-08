@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
 
     id("com.google.devtools.ksp") version "1.9.24-1.0.20"
+    id("de.mannodermaus.android-junit5") version "1.10.0.0"
 }
 
 android {
@@ -80,4 +81,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
     implementation("androidx.compose.runtime:runtime-livedata:1.6.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
+
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+
+    // (Required) Writing and executing Unit Tests on the JUnit Platform
+    val jupiterVersion = "5.10.0"
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$jupiterVersion")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jupiterVersion")
+    // for instrumented tests on device or emulator, see https://github.com/mannodermaus/android-junit5
+    androidTestImplementation("org.junit.jupiter:junit-jupiter-api:$jupiterVersion")
 }
