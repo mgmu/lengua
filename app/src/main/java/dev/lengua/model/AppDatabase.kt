@@ -5,6 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
+// Add this when going from version 1 to 2 to @Database
+//    autoMigrations = [
+//        AutoMigration (from = 1, to = 2)
+//    ]
 @Database(entities = [EntryEntity::class], version = 1)
 /**
  * The application database.
