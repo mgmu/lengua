@@ -5,7 +5,7 @@ For now, the user can add, edit and delete terms and their definitions.
 ## Installation
 
 For now, the app is not hosted on any repository such as the Google Play Store or others but can be installed by doing the following:
-- downlaod the APK, put it in your device and launch it.
+- downlaod the APK (this one `/app/release/app-release.apk`), put it in your device and launch it.
 - clone this repo and download the app with `adb` or Android Studio directly to your device.
 
 I will try to publish it as soon as possible to a known app repository, as Google Play Store.

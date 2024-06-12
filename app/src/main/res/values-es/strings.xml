@@ -13,7 +13,7 @@
     <string name="add_new_term">Añade un nuevo término</string>
     <string name="terms">Términos</string>
     <string name="delete_confirmation">Confirmar la supresión</string>
-    <string name="entry_forever_lost">La entrada sera perdida para siempe. Esta acción es irreversible.</string>
+    <string name="entry_forever_lost">La entrada sera perdida para siempre. Esta acción es irreversible.</string>
     <string name="confirm">Confirmar</string>
     <string name="dismiss">Anular</string>
     <string name="delete_icon">Icono de supresión</string>
