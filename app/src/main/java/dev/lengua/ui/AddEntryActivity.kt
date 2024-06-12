@@ -18,8 +18,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
-import dev.lengua.ui.components.EditableEntryWithButton
+import dev.lengua.ui.components.EditableEntryWithButtonLandscape
+import dev.lengua.ui.components.EditableEntryWithButtonPortrait
 import dev.lengua.ui.theme.LenguaTheme
 import kotlinx.coroutines.launch
 
@@ -86,29 +88,77 @@ class AddEntryActivity: ComponentActivity() {
         placeholderTerm: String,
         placeholderDef: String
     ) {
-        EditableEntryWithButton(
-            title,
-            term,
-            onTermValueChange,
-            definition,
-            onDefinitionValueChange,
-            onClick,
-            buttonText,
-            placeholderTerm,
-            placeholderDef
-        )
+        val configuration = LocalConfiguration.current
+        val isLandscape =
+            configuration.orientation  == Configuration.ORIENTATION_LANDSCAPE
+        if (isLandscape) {
+            EditableEntryWithButtonLandscape(
+                title,
+                term,
+                onTermValueChange,
+                definition,
+                onDefinitionValueChange,
+                onClick,
+                buttonText,
+                placeholderTerm,
+                placeholderDef
+            )
+        } else {
+            EditableEntryWithButtonPortrait(
+                title,
+                term,
+                onTermValueChange,
+                definition,
+                onDefinitionValueChange,
+                onClick,
+                buttonText,
+                placeholderTerm,
+                placeholderDef
+            )
+        }
     }
 
     @Preview(
+        showSystemUi = true,
         uiMode = Configuration.UI_MODE_NIGHT_YES,
         name = "DefaultPreviewDark"
     )
     @Preview(
+        showSystemUi = true,
         uiMode = Configuration.UI_MODE_NIGHT_NO,
         name = "DefaultPreviewLight"
     )
     @Composable
-    fun PreviewAddEntryScreen() {
+    fun PreviewAddEntryScreenPortrait() {
+        LenguaTheme {
+            AddEntryScreen(
+                "New term",
+                "term",
+                {},
+                "definition",
+                {},
+                {},
+                "Save",
+                "term",
+                "definition"
+            )
+        }
+    }
+
+    @Preview(
+        showSystemUi = true,
+        uiMode = Configuration.UI_MODE_NIGHT_YES,
+        name = "DefaultPreviewDark",
+        device = "spec:orientation=landscape,width=411dp,height=891dp"
+    )
+    @Preview(
+        showSystemUi = true,
+        uiMode = Configuration.UI_MODE_NIGHT_NO,
+        name = "DefaultPreviewLight",
+        device = "spec:orientation=landscape,width=411dp,height=891dp"
+    )
+    @Composable
+    fun PreviewAddEntryScreenLandscape() {
         LenguaTheme {
             AddEntryScreen(
                 "New term",

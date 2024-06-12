@@ -3,11 +3,11 @@ package dev.lengua.ui.components
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import dev.lengua.ui.theme.LenguaTheme
 
 @Composable
-fun EditableEntryWithButton(
+fun EditableEntryWithButtonPortrait(
     title: String,
     term: String,
     onTermValueChange: (String) -> Unit,
@@ -47,6 +47,44 @@ fun EditableEntryWithButton(
                 placeholderTerm,
                 placeholderDef
             )
+            val buttonModifier = Modifier.padding(32.dp)
+            SimpleButton(onClick, buttonModifier, buttonText)
+        }
+    }
+}
+
+@Composable
+fun EditableEntryWithButtonLandscape(
+    title: String,
+    term: String,
+    onTermValueChange: (String) -> Unit,
+    definition: String,
+    onDefinitionValueChange: (String) -> Unit,
+    onClick: () -> Unit,
+    buttonText: String,
+    placeholderTerm: String,
+    placeholderDef: String
+) {
+    Surface(modifier = Modifier.fillMaxSize()) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                EntryDescriptionWithFlag(
+                    false,
+                    title,
+                    term,
+                    onTermValueChange,
+                    definition,
+                    onDefinitionValueChange,
+                    placeholderTerm,
+                    placeholderDef
+                )
+            }
             val buttonModifier = Modifier.padding(32.dp)
             SimpleButton(onClick, buttonModifier, buttonText)
         }
@@ -112,10 +150,12 @@ fun EntryDescription(
 }
 
 @Preview(
+    showSystemUi = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
     name = "DefaultPreviewDark"
 )
 @Preview(
+    showSystemUi = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     name = "DefaultPreviewLight"
 )
@@ -133,17 +173,49 @@ fun PreviewEntryDescription() {
 }
 
 @Preview(
+    showSystemUi = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    name = "DefaultPreviewDark"
+    name = "DefaultPreviewDarkPortrait"
 )
 @Preview(
+    showSystemUi = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    name = "DefaultPreviewLight"
+    name = "DefaultPreviewLightPortrait"
 )
 @Composable
-fun PreviewEditableEntryWithButton() {
+fun PreviewEditableEntryWithButtonPortrait() {
     LenguaTheme {
-        EditableEntryWithButton("Entry",
+        EditableEntryWithButtonPortrait(
+            "Entry",
+            "the term",
+            {},
+            "the definition",
+            {},
+            {},
+            "Button",
+            "placeholder term",
+            "placeholder definition"
+        )
+    }
+}
+
+@Preview(
+    showSystemUi = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDarkLandscape",
+    device = "spec:orientation=landscape,width=411dp,height=891dp"
+)
+@Preview(
+    showSystemUi = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    name = "DefaultPreviewLightLandscape",
+    device = "spec:orientation=landscape,width=411dp,height=891dp"
+)
+@Composable
+fun PreviewEditableEntryWithButtonLandscape() {
+    LenguaTheme {
+        EditableEntryWithButtonLandscape(
+            "Entry",
             "the term",
             {},
             "the definition",
