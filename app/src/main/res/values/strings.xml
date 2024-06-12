@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Lengua</string>
+    <string name="new_term">New term</string>
+    <string name="could_not_save_term">Could not save term.</string>
+    <string name="save">Save</string>
+    <string name="type_term_here">Type term here</string>
+    <string name="type_definition_here">Type definition here</string>
+    <string name="nothing_to_edit">Nothing to edit</string>
+    <string name="edit">Edit</string>
+    <string name="edit_term_here">Edit term here</string>
+    <string name="edit_definition_here">Edit definition here</string>
+    <string name="no_terms">No terms !</string>
+    <string name="add_new_term">Add new term</string>
+    <string name="terms">Terms</string>
+    <string name="delete_confirmation">Delete confirmation</string>
+    <string name="entry_forever_lost">The entry will be forever lost. This action cannot be undone.</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="delete_icon">Delete icon</string>
+    <string name="term">Term</string>
+    <string name="definition">Definition</string>
 </resources>

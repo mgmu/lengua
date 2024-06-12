@@ -8,9 +8,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import dev.lengua.LenguaIcons
+import dev.lengua.R
 import dev.lengua.ui.theme.LenguaTheme
 
 @Composable
@@ -20,18 +22,22 @@ fun ConfirmDeleteEntryDialog(
     onDismissButtonClick: () -> Unit
 ) {
     AlertDialog(
-        icon = { Icon(LenguaIcons.Delete, "Delete icon") },
+        icon = {
+            Icon(
+                LenguaIcons.Delete,
+                stringResource(R.string.delete_icon)
+            )
+        },
         title = {
             Text(
-                text = "Delete confirmation",
+                text = stringResource(R.string.delete_confirmation),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge
             )
         },
         text = {
             Text(
-                text = "The entry will be forever lost. This action can not " +
-                        "be undone.",
+                text = stringResource(R.string.entry_forever_lost),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyLarge
             )
@@ -39,12 +45,12 @@ fun ConfirmDeleteEntryDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(onClick = onConfirmButtonClick) {
-                Text("Confirm")
+                Text(stringResource(R.string.confirm))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismissButtonClick) {
-                Text("Dismiss")
+                Text(stringResource(R.string.dismiss))
             }
         }
     )

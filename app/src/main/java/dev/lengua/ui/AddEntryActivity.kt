@@ -19,7 +19,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import dev.lengua.R
 import dev.lengua.ui.components.EditableEntryWithButtonLandscape
 import dev.lengua.ui.components.EditableEntryWithButtonPortrait
 import dev.lengua.ui.theme.LenguaTheme
@@ -51,7 +53,7 @@ class AddEntryActivity: ComponentActivity() {
                     }
                 ) { _ ->
                     AddEntryScreen(
-                        "New term",
+                        stringResource(R.string.new_term),
                         term,
                         { term = it },
                         definition,
@@ -62,14 +64,14 @@ class AddEntryActivity: ComponentActivity() {
                             else {
                                 scope.launch {
                                     snackbarHostState.showSnackbar(
-                                        "Could not save term."
+                                        getString(R.string.could_not_save_term)
                                     )
                                 }
                             }
                         },
-                        "Save",
-                        "Type term here",
-                        "Type definition here"
+                        stringResource(R.string.save),
+                        stringResource(R.string.type_term_here),
+                        stringResource(R.string.type_definition_here)
                     )
                 }
             }

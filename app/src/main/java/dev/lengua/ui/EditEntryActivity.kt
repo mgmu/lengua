@@ -19,7 +19,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import dev.lengua.R
 import dev.lengua.ui.components.EditableEntryWithButtonLandscape
 import dev.lengua.ui.components.EditableEntryWithButtonPortrait
 import dev.lengua.ui.theme.LenguaTheme
@@ -38,12 +40,12 @@ class EditEntryActivity: ComponentActivity() {
             LenguaTheme {
                 val initialTerm =
                     if (viewModel.entryToEdit == null)
-                        "Nothing to edit"
+                        stringResource(R.string.nothing_to_edit)
                     else
                         viewModel.entryToEdit!!.term()
                 val initialDefinition =
                     if (viewModel.entryToEdit == null)
-                        "Nothing to edit"
+                        stringResource(R.string.nothing_to_edit)
                     else
                         viewModel.entryToEdit!!.definition()
                 var term by rememberSaveable {
@@ -65,7 +67,7 @@ class EditEntryActivity: ComponentActivity() {
                     }
                 ) {  _ ->
                     EditEntryActivityScreen(
-                        "Edit",
+                        stringResource(R.string.edit),
                         term,
                         { term = it },
                         definition,
@@ -76,7 +78,7 @@ class EditEntryActivity: ComponentActivity() {
                             else {
                                 scope.launch {
                                     snackbarHostState.showSnackbar(
-                                        "Could not update term."
+                                        getString(R.string.could_not_save_term)
                                     )
                                 }
                             }
@@ -107,9 +109,9 @@ class EditEntryActivity: ComponentActivity() {
                 definition,
                 onDefinitionValueChange,
                 onClick,
-                "Save",
-                "Edit term here",
-                "Edit definition here"
+                stringResource(R.string.save),
+                stringResource(R.string.edit_term_here),
+                stringResource(R.string.edit_definition_here)
             )
         } else {
             EditableEntryWithButtonPortrait(
@@ -119,9 +121,9 @@ class EditEntryActivity: ComponentActivity() {
                 definition,
                 onDefinitionValueChange,
                 onClick,
-                "Save",
-                "Edit term here",
-                "Edit definition here"
+                stringResource(R.string.save),
+                stringResource(R.string.edit_term_here),
+                stringResource(R.string.edit_definition_here)
             )
         }
     }

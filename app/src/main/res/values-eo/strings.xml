@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lengua</string>
+    <string name="new_term">Nova termino</string>
+    <string name="could_not_save_term">Ne eblis konservi terminon.</string>
+    <string name="save">Savi</string>
+    <string name="type_term_here">Tajpu terminon ĉi tie</string>
+    <string name="type_definition_here">Tajpu difinon ĉi tie</string>
+    <string name="nothing_to_edit">Nenio por redakti</string>
+    <string name="edit">Redakti</string>
+    <string name="edit_term_here">Redaktu terminon ĉi tie</string>
+    <string name="edit_definition_here">Redaktu difinon ĉi tie</string>
+    <string name="no_terms">Neniuj terminoj!</string>
+    <string name="add_new_term">Aldonu novan terminon</string>
+    <string name="terms">Terminoj</string>
+    <string name="delete_confirmation">Forigi konfirmon</string>
+    <string name="entry_forever_lost">La eniro estos por ĉiam perdita. Ĉi tiu ago ne povas esti malfarita.</string>
+    <string name="confirm">Konfirmu</string>
+    <string name="dismiss">Forĵeti</string>
+    <string name="delete_icon">Forigi ikonon</string>
+    <string name="term">Terminon</string>
+    <string name="definition">Difino</string>
+</resources>

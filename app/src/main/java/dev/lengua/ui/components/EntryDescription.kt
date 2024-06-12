@@ -16,8 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.lengua.R
 import dev.lengua.ui.theme.LenguaTheme
 
 @Composable
@@ -103,21 +105,27 @@ private fun EntryDescriptionWithFlag(
     placeholderDef: String
 ) {
     Text(text = title, style = MaterialTheme.typography.headlineSmall)
-    Divider(modifier = Modifier.padding(8.dp).width(316.dp))
+    Divider(modifier = Modifier
+        .padding(8.dp)
+        .width(316.dp))
     OutlinedTextField(
         value = term,
         onValueChange = onTermValueChange,
         placeholder = { Text(placeholderTerm) },
-        label = @Composable { Text("Term") },
-        modifier = Modifier.height(65.dp).width(300.dp),
+        label = @Composable { Text(stringResource(R.string.term)) },
+        modifier = Modifier
+            .height(65.dp)
+            .width(300.dp),
         readOnly = readOnly
     )
     OutlinedTextField(
         value = definition,
         onValueChange = onDefinitionValueChange,
         placeholder = { Text(placeholderDef) },
-        label = @Composable { Text("Definition") },
-        modifier = Modifier.height(200.dp).width(300.dp),
+        label = @Composable { Text(stringResource(R.string.definition)) },
+        modifier = Modifier
+            .height(200.dp)
+            .width(300.dp),
         readOnly = readOnly
     )
 }

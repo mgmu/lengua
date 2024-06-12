@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Lengua</string>
+    <string name="new_term">Nouveau terme</string>
+    <string name="could_not_save_term">Le terme n\'a pas pu être enregistré.</string>
+    <string name="save">Sauvegarder</string>
+    <string name="type_term_here">Ecrivez le terme ici</string>
+    <string name="type_definition_here">Ecrivez la définition ici</string>
+    <string name="nothing_to_edit">Rien à modifier</string>
+    <string name="edit">Modifier</string>
+    <string name="edit_term_here">Modifier le terme ici</string>
+    <string name="edit_definition_here">Modifier la définition ici</string>
+    <string name="no_terms">Aucun terme !</string>
+    <string name="add_new_term">Ajouter un terme</string>
+    <string name="terms">Termes</string>
+    <string name="delete_confirmation">Confirmer la suppression</string>
+    <string name="entry_forever_lost">L\'entrée sera perdue pour toujours. Cette action est irréversible.</string>
+    <string name="confirm">Confirmer</string>
+    <string name="dismiss">Annuler</string>
+    <string name="delete_icon">Icône de suppression</string>
+    <string name="term">Terme</string>
+    <string name="definition">Définition</string>
+</resources>
