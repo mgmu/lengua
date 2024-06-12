@@ -4,6 +4,7 @@ plugins {
 
     id("com.google.devtools.ksp") version "1.9.24-1.0.20"
     id("de.mannodermaus.android-junit5") version "1.10.0.0"
+    id("org.jetbrains.dokka") version "1.9.20"
 }
 
 android {
@@ -90,4 +91,6 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$jupiterVersion")
     // for instrumented tests on device or emulator, see https://github.com/mannodermaus/android-junit5
     androidTestImplementation("org.junit.jupiter:junit-jupiter-api:$jupiterVersion")
+
+    dokkaPlugin("org.jetbrains.dokka:android-documentation-plugin:1.9.20")
 }

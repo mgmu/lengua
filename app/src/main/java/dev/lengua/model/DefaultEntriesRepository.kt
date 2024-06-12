@@ -1,10 +1,18 @@
 package dev.lengua.model
 
-import androidx.lifecycle.MutableLiveData
 import dev.lengua.ui.Entry
 import dev.lengua.ui.IdentifiedEntry
 import kotlinx.coroutines.flow.transform
 
+/**
+ * The default repository of entries.
+ *
+ * This repository provides access to all the entries and the entry to edit
+ * along methods to add, update or delete such entries.
+ *
+ * @param entryDao the data access object to entries stored in the application
+ * database
+ */
 class DefaultEntriesRepository(
     private val entryDao: EntryDao
 ): EntriesRepository {
@@ -38,10 +46,6 @@ class DefaultEntriesRepository(
         )
         entryDao.update(model)
     }
-
-    //override fun setEntryToEdit(entryToEdit: IdentifiedEntry) {
-    //    this.entryToEdit = entryToEdit
-    //}
 
     override fun clearEntryToEdit() {
         this.entryToEdit = null
