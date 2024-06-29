@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -85,7 +85,7 @@ class MenuActivity: ComponentActivity() {
                     modifier = Modifier.padding(PaddingValues(top = 8.dp)),
                     style = MaterialTheme.typography.headlineSmall
                 )
-                Divider(modifier = Modifier.padding(8.dp))
+                HorizontalDivider(modifier = Modifier.padding(8.dp))
                 Column(
                     modifier = Modifier.weight(1f),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -102,7 +102,7 @@ class MenuActivity: ComponentActivity() {
                         )
                     }
                 }
-                Divider(modifier = Modifier.padding(8.dp))
+                HorizontalDivider(modifier = Modifier.padding(8.dp))
                 val addEntryButtonModifier = Modifier.padding(
                     PaddingValues(bottom = 8.dp)
                 )

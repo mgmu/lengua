@@ -51,25 +51,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.runtime.livedata)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.constraintlayout.compose)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
-
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
@@ -81,7 +62,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
     implementation("androidx.compose.runtime:runtime-livedata:1.6.7")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
 
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
 
@@ -93,4 +73,23 @@ dependencies {
     androidTestImplementation("org.junit.jupiter:junit-jupiter-api:$jupiterVersion")
 
     dokkaPlugin("org.jetbrains.dokka:android-documentation-plugin:1.9.20")
+
+    // Compose
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation(libs.core.ktx)
+
+    // Compose preview
+    implementation(libs.androidx.ui.tooling.preview.android)
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.7")
+    debugImplementation(libs.androidx.ui.tooling)
+
+    // Material 3
+    implementation(libs.androidx.material3.android)
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }
